@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Photographer Portfolio Website
 
 A modern, responsive photographer portfolio website built with React, TypeScript, and styled-components.
@@ -155,3 +156,6 @@ For support or questions, please open an issue in the repository.
 ---
 
 **Happy coding! 📸✨**
+=======
+# lvkinhas
+>>>>>>> origin/main
