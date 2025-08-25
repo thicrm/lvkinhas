@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import Loading from './Loading';
 
 const AboutSection = styled.section`
   padding: 8rem 0 5rem 0;
-  background: #f8f9fa;
+  background: #000000;
   position: relative;
   overflow: hidden;
   
@@ -35,16 +36,7 @@ const AboutBackgroundVideo = styled.div`
     left: 0;
   }
   
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    z-index: 1;
-  }
+  /* Removed the gray overlay that was causing the ugly background */
 `;
 
 const SoundToggleButton = styled.button`
@@ -77,8 +69,8 @@ const SoundToggleButton = styled.button`
   }
   
   @media (max-width: 768px) {
-    top: 1.5rem;
-    right: 1.5rem;
+    top: 4rem; /* Moved down to avoid overlap with mobile menu button */
+    right: 1rem;
     width: 45px;
     height: 45px;
     font-size: 18px;
@@ -370,7 +362,188 @@ const SkillLevel = styled.div`
 
 const About: React.FC = () => {
   const [isMuted, setIsMuted] = React.useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const [videoPlaying, setVideoPlaying] = useState(false);
+  const [minLoadingTime, setMinLoadingTime] = useState(true);
+  const [simulatedProgress, setSimulatedProgress] = useState(0);
+  const [elementsLoaded, setElementsLoaded] = useState(0);
+  const [totalElements, setTotalElements] = useState(0);
   const videoRef = React.useRef<HTMLVideoElement>(null);
+  
+  // Calculate total elements to load
+  useEffect(() => {
+    // Count only actual resources that need to load: video + personal image
+    const elementCount = 1 + 1; // video + image (skill bars and text are just animations)
+    setTotalElements(elementCount);
+    console.log('Total elements to load:', elementCount);
+  }, []);
+  
+  // Handle video loading with better detection
+  const handleVideoLoad = () => {
+    console.log('Video loaded successfully');
+    setVideoLoaded(true);
+    setElementsLoaded(prev => prev + 1);
+  };
+  
+  // Handle video can play
+  const handleVideoCanPlay = () => {
+    console.log('Video can play');
+    setVideoLoaded(true);
+  };
+  
+  // Handle video actually playing
+  const handleVideoPlay = () => {
+    console.log('Video started playing');
+    setVideoPlaying(true);
+  };
+  
+  // Handle video can play through (fully buffered)
+  const handleVideoCanPlayThrough = () => {
+    console.log('Video can play through without buffering');
+    setVideoLoaded(true);
+  };
+  
+  // Handle video error
+  const handleVideoError = () => {
+    console.log('Video failed to load, proceeding anyway');
+    setVideoLoaded(true);
+    setVideoPlaying(true);
+    setElementsLoaded(prev => prev + 1);
+  };
+  
+  // Handle personal image load
+  const handleImageLoad = () => {
+    console.log('Personal image loaded');
+    setElementsLoaded(prev => prev + 1);
+  };
+  
+  // Handle personal image error
+  const handleImageError = () => {
+    console.log('Personal image failed to load, proceeding anyway');
+    setElementsLoaded(prev => prev + 1);
+  };
+  
+  // Remove skill bar and text handlers - they're just animations, not loading
+  
+  // Minimum loading time and progress simulation
+  useEffect(() => {
+    // Start loading video immediately
+    if (videoRef.current) {
+      videoRef.current.load();
+    }
+    
+    // Simulate loading progress for better UX
+    const progressInterval = setInterval(() => {
+      setSimulatedProgress(prev => {
+        if (prev < 100) {
+          return prev + Math.random() * 20; // Faster progress
+        }
+        return 100; // Ensure it reaches 100%
+      });
+    }, 100); // Even faster updates
+    
+    // Reduced minimum time to 0.5 seconds - just for smooth UX
+    const timer = setTimeout(() => {
+      setMinLoadingTime(false);
+      console.log('Minimum loading time completed');
+      
+      // Force progress to 100% when minimum time is done
+      setSimulatedProgress(100);
+    }, 500); // Reduced from 1500ms to 500ms
+    
+    return () => {
+      clearTimeout(timer);
+      clearInterval(progressInterval);
+    };
+  }, []);
+  
+  // Check if all elements are loaded and minimum time has passed
+  useEffect(() => {
+    if (elementsLoaded >= totalElements && !minLoadingTime) {
+      console.log('All elements loaded and minimum time passed, hiding loading screen');
+      setTimeout(() => setIsLoading(false), 100); // Faster transition
+    }
+  }, [elementsLoaded, totalElements, minLoadingTime]);
+  
+  // New: Only complete loading when video is actually ready and visible
+  useEffect(() => {
+    if (!minLoadingTime && videoRef.current) {
+      const checkVideoStatus = () => {
+        const video = videoRef.current;
+        if (video) {
+          console.log('Video status check:', {
+            readyState: video.readyState,
+            networkState: video.networkState,
+            paused: video.paused,
+            currentTime: video.currentTime,
+            duration: video.duration,
+            videoWidth: video.videoWidth,
+            videoHeight: video.videoHeight,
+            buffered: video.buffered.length > 0 ? video.buffered.end(0) : 0
+          });
+          
+          // More realistic conditions - video just needs to be ready to display
+          // readyState >= 2 = HAVE_CURRENT_DATA (can start playing)
+          // OR readyState >= 3 = HAVE_FUTURE_DATA (can play current and next frame)
+          // videoWidth > 0 = video has dimensions (is visible)
+          if ((video.readyState >= 2 && video.videoWidth > 0) || 
+              (video.readyState >= 3)) {
+            console.log('Video is ready to display - completing loading!');
+            setVideoLoaded(true);
+            setVideoPlaying(true);
+            setTimeout(() => setIsLoading(false), 200);
+          }
+        }
+      };
+      
+      // Check video status every 100ms
+      const videoCheckInterval = setInterval(checkVideoStatus, 100);
+      
+      // Add a reasonable timeout to prevent infinite loading
+      const maxWaitTimer = setTimeout(() => {
+        clearInterval(videoCheckInterval);
+        console.log('Max wait time reached (5 seconds), forcing completion');
+        setVideoLoaded(true);
+        setVideoPlaying(true);
+        setTimeout(() => setIsLoading(false), 200);
+      }, 5000); // 5 second timeout
+      
+      return () => {
+        clearInterval(videoCheckInterval);
+        clearTimeout(maxWaitTimer);
+      };
+    }
+  }, [minLoadingTime]);
+  
+  // Fallback: If minimum time passed and video has any data, complete loading
+  useEffect(() => {
+    if (!minLoadingTime && videoRef.current) {
+      const video = videoRef.current;
+      if (video && (video.readyState >= 1 || video.videoWidth > 0)) {
+        console.log('Fallback: Video has some data, completing loading');
+        setTimeout(() => {
+          setVideoLoaded(true);
+          setVideoPlaying(true);
+          setIsLoading(false);
+        }, 1000); // 1 second delay to ensure video is ready
+      }
+    }
+  }, [minLoadingTime]);
+  
+  // Simple fallback: Complete loading after minimum time + 1 second
+  useEffect(() => {
+    if (!minLoadingTime) {
+      const simpleFallback = setTimeout(() => {
+        console.log('Simple fallback: Minimum time + 1 second passed, completing loading');
+        setVideoLoaded(true);
+        setVideoPlaying(true);
+        setIsLoading(false);
+      }, 1000);
+      
+      return () => clearTimeout(simpleFallback);
+    }
+  }, [minLoadingTime]);
   
   const toggleSound = () => {
     console.log('Button clicked! Current muted state:', isMuted);
@@ -409,8 +582,34 @@ const About: React.FC = () => {
     }
   ];
 
+  // Calculate progress percentage - use real element loading progress
+  const progress = elementsLoaded > 0 
+    ? Math.round((elementsLoaded / totalElements) * 100) 
+    : Math.round(simulatedProgress);
+  
+  // Show loading screen while video is loading or minimum time hasn't passed
+  if (isLoading || minLoadingTime) {
+    return (
+      <Loading 
+        progress={progress}
+        totalImages={totalElements}
+        loadedImages={elementsLoaded}
+        subtitle="Loading About Page..."
+      />
+    );
+  }
+
   return (
-    <AboutSection>
+    <>
+      {/* Preload video for faster loading */}
+      <link 
+        rel="preload" 
+        href="https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/Hexen_%20Beyond%20Heretic%20(Fighter)%20-%2002%20Seven%20Portals%201%20-%20No%20Commentary.mp4" 
+        as="video" 
+        type="video/mp4"
+      />
+      
+      <AboutSection>
               <AboutBackgroundVideo>
           <video
             ref={videoRef}
@@ -419,6 +618,13 @@ const About: React.FC = () => {
             muted={isMuted}
             loop
             playsInline
+            preload="auto"
+            poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Crect width='1' height='1' fill='%23000000'/%3E%3C/svg%3E"
+            onLoadedData={handleVideoLoad}
+            onError={handleVideoError}
+            onCanPlay={handleVideoCanPlay}
+            onPlay={handleVideoPlay}
+            onCanPlayThrough={handleVideoCanPlayThrough}
           />
         </AboutBackgroundVideo>
         
@@ -442,6 +648,8 @@ const About: React.FC = () => {
                 src="https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/IMG_4577.JPG"
                 alt="Lucas Cavallini - Photographer"
                 style={{ width: '100%', height: 'auto', display: 'block' }}
+                onLoad={handleImageLoad}
+                onError={handleImageError}
               />
             </AboutImage>
 
@@ -450,10 +658,9 @@ const About: React.FC = () => {
                 {skills.map((skill, index) => (
                   <SkillCard
                     key={skill.name}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: index * 0.1 }}
-                    viewport={{ once: true }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: index * 0.05 }}
                   >
                     <SkillName className="skill-name">{skill.name}</SkillName>
                     <SkillDescription>{skill.description}</SkillDescription>
@@ -471,28 +678,27 @@ const About: React.FC = () => {
 
           <AboutContent>
             <AboutText
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4 }}
             >
               Lucas Cavallini (AKA LVQKINHAS) is a professional photographer, journalist and all-around creative in the realm of image making. 
               Born in Belém - PA, Lucas came to São Paulo at a very early age and started meddling with analog photography circa 2018. From then, Lucas has turned into a competent professional, mainly photographing events and fashion tied to the current nightlife scene in São Paulo. 
             </AboutText>
             
             <AboutText
-              initial={{ opacity: 0, x: -30 }}
+              initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              transition={{ duration: 0.4, delay: 0.1 }}
               viewport={{ once: true }}
             >
               Lucas is also part of REBU Digital, a transmedia collective uniting creatives who challenge and lead the arts. For 3+ years, it has hosted Lovecore, a party for music, performance, and alternative culture, featuring artists like Meat Computer, Eq, and Agazero. Lucas has contributed in may Lovecores as a photographer and coordinator of the media team as well as one of the producers.
             </AboutText>
             
             <AboutText
-              initial={{ opacity: 0, x: -30 }}
+              initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
               viewport={{ once: true }}
             >
               Lucas has worked with powerful creators of the global south, such as Gabriel KOI, KENYA20hz, dada Joãozinho, André Lima, EQ, AGAZERO, MARIA ESMERALDA and S.E.E.D.
@@ -501,6 +707,7 @@ const About: React.FC = () => {
         </AboutGrid>
       </Container>
     </AboutSection>
+    </>
   );
 };
 

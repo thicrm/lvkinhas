@@ -119,8 +119,8 @@ const Footer: React.FC = () => {
             Professional photographer, journalist and all-around creative in the realm of image making. Born in Belém - PA, Lucas came to São Paulo at a very early age and started meddling with analog photography circa 2018. From then, Lucas has turned into a competent professional, mainly photographing events and fashion tied to the current nightlife scene in São Paulo.
             </FooterText>
             <SocialLinks>
-              <SocialLink href="#" aria-label="Instagram"><i className="bi bi-instagram"></i></SocialLink>
-              <SocialLink href="#" aria-label="Twitter"><i className="bi bi-twitter-x"></i></SocialLink>
+              <SocialLink href="https://www.instagram.com/lvqkinhas/" aria-label="Instagram"><i className="bi bi-instagram"></i></SocialLink>
+              <SocialLink href="https://x.com/lvqkinhas" aria-label="Twitter"><i className="bi bi-twitter-x"></i></SocialLink>
               <SocialLink href="#" aria-label="LinkedIn"><i className="bi bi-linkedin"></i></SocialLink>
             </SocialLinks>
           </FooterSection>
@@ -141,7 +141,7 @@ const Footer: React.FC = () => {
             <FooterTitle>Contact Info</FooterTitle>
             <FooterText>
               📍 São Paulo, SP<br />
-              📧 hello@yourphotography.com<br />
+              📧 lvcascavallini@gmail.com<br />
               📱 +55 11 98104-5537
             </FooterText>
           </FooterSection>

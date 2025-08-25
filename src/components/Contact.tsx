@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import emailjs from '@emailjs/browser';
 
 const ContactSection = styled.section`
   padding: 8rem 0 5rem 0;
@@ -330,6 +331,15 @@ const SuccessMessage = styled(motion.div)`
   text-align: center;
 `;
 
+const ErrorMessage = styled(motion.div)`
+  background: #f8d7da;
+  color: #721c24;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  text-align: center;
+`;
+
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -339,6 +349,23 @@ const Contact: React.FC = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  // Initialize EmailJS
+  useEffect(() => {
+    try {
+      // 🔧 EMAILJS SETUP REQUIRED:
+      // 1. Go to https://www.emailjs.com/ and create account
+      // 2. Create Gmail service and get Service ID
+      // 3. Create email template and get Template ID  
+      // 4. Get your Public Key from Account → API Keys
+      // 5. Replace the values below with your actual IDs
+      emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your actual public key
+    } catch (error) {
+      console.warn('EmailJS initialization failed:', error);
+    }
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -350,15 +377,58 @@ const Contact: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setShowError(false);
+    setErrorMessage('');
     
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    setIsSubmitting(false);
-    setShowSuccess(true);
-    setFormData({ name: '', email: '', subject: '', message: '' });
-    
-    setTimeout(() => setShowSuccess(false), 5000);
+    try {
+      // Check if EmailJS is properly configured
+      if (!emailjs || !emailjs.send) {
+        throw new Error('Email service not configured');
+      }
+
+      // EmailJS template parameters
+      const templateParams = {
+        to_email: 'lvcascavallini@gmail.com',
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+        reply_to: formData.email
+      };
+
+      // Send email using EmailJS
+      const result = await emailjs.send(
+        'YOUR_SERVICE_ID', // 🔧 Replace with your EmailJS service ID (e.g., 'service_abc123')
+        'YOUR_TEMPLATE_ID', // 🔧 Replace with your EmailJS template ID (e.g., 'template_xyz789')
+        templateParams
+      );
+
+      if (result.status === 200) {
+        setShowSuccess(true);
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        setTimeout(() => setShowSuccess(false), 5000);
+      } else {
+        throw new Error('Failed to send email');
+      }
+    } catch (error: any) {
+      console.error('Email error:', error);
+      
+      // Provide more specific error messages
+      if (error.message === 'Email service not configured') {
+        setErrorMessage('Email service not configured. Please contact directly at lvcascavallini@gmail.com');
+      } else if (error.text && error.text.includes('Invalid email')) {
+        setErrorMessage('Please check your email address and try again.');
+      } else if (error.text && error.text.includes('template')) {
+        setErrorMessage('Email service configuration error. Please contact directly.');
+      } else {
+        setErrorMessage('Failed to send message. Please try again or contact directly at lvcascavallini@gmail.com');
+      }
+      
+      setShowError(true);
+      setTimeout(() => setShowError(false), 8000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -384,6 +454,16 @@ const Contact: React.FC = () => {
             >
               Thank you! Your message has been sent successfully.
             </SuccessMessage>
+          )}
+
+          {showError && (
+            <ErrorMessage
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+            >
+              {errorMessage}
+            </ErrorMessage>
           )}
 
           <FormGroup>
@@ -462,7 +542,7 @@ const Contact: React.FC = () => {
             <InfoIcon>📧</InfoIcon>
             <InfoTitle>Email</InfoTitle>
             <InfoText>
-              hello@yourphotography.com<br />
+             lvcascavallini@gmail.com<br />
             </InfoText>
           </InfoCard>
 
@@ -491,8 +571,8 @@ const Contact: React.FC = () => {
               Stay updated with my latest work and behind-the-scenes moments.
             </InfoText>
             <SocialLinks>
-              <SocialLink href="#" aria-label="Instagram"><i className="bi bi-instagram"></i></SocialLink>
-              <SocialLink href="#" aria-label="Twitter"><i className="bi bi-twitter-x"></i></SocialLink>
+              <SocialLink href="https://www.instagram.com/lvqkinhas/" aria-label="Instagram"><i className="bi bi-instagram"></i></SocialLink>
+              <SocialLink href="https://x.com/lvqkinhas" aria-label="Twitter"><i className="bi bi-twitter-x"></i></SocialLink>
               <SocialLink href="#" aria-label="LinkedIn"><i className="bi bi-linkedin"></i></SocialLink>
             </SocialLinks>
           </InfoCard>

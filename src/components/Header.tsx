@@ -90,15 +90,22 @@ const NavLink = styled(Link)<{ active: boolean; isAboutPage: boolean; isContactP
   }
 `;
 
-const MobileMenuButton = styled.button`
+const MobileMenuButton = styled.button<{ isAboutPage: boolean; isContactPage: boolean }>`
   display: none;
   background: none;
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
+  color: ${props => (props.isAboutPage || props.isContactPage) ? 'white' : '#333'};
+  transition: all 0.3s ease;
   
   @media (max-width: 768px) {
     display: block;
+  }
+  
+  &:hover {
+    color: ${props => (props.isAboutPage || props.isContactPage) ? 'white' : '#333'};
+    transform: scale(1.1);
   }
 `;
 
@@ -183,7 +190,7 @@ const Header: React.FC = () => {
           ))}
         </NavLinks>
         
-        <MobileMenuButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+        <MobileMenuButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)} isAboutPage={isAboutPage} isContactPage={isContactPage}>
           {mobileMenuOpen ? '✕' : '☰'}
         </MobileMenuButton>
       </Nav>
