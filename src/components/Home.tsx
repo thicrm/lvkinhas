@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
@@ -584,15 +584,6 @@ const Home: React.FC = () => {
     setCurrentIndex((prev) => (prev - 1 + mediaItems.length) % mediaItems.length);
   };
   
-  // Auto-advance carousel effect
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % mediaItems.length);
-    }, 5000); // 5 seconds
-    
-    return () => clearInterval(interval);
-  }, [mediaItems.length]);
-  
   return (
     <>
       <HeroSection>
@@ -653,23 +644,14 @@ const Home: React.FC = () => {
                 {mediaItems[currentIndex]?.type === 'video' ? (
                   <video
                     src={mediaItems[currentIndex]?.url}
-                    autoPlay={true}
+                    autoPlay
                     muted
                     loop
                     preload="auto"
                     playsInline
                     controls={false}
                     style={{ width: '100%', height: 'auto' }}
-                    onError={(e) => {
-                      console.log('Video failed to load:', e);
-                      const video = e.target as HTMLVideoElement;
-                      console.log('Video error details:', video.error);
-                    }}
-                    onLoadStart={() => console.log('Video loading started')}
-                    onCanPlay={() => console.log('Video can play')}
                   >
-                    {/* Fallback for Chrome compatibility */}
-                    <source src={mediaItems[currentIndex]?.url} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
                 ) : (

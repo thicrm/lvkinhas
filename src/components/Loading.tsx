@@ -92,7 +92,7 @@ const Loading: React.FC<LoadingProps> = ({ progress, totalImages, loadedImages, 
   return (
     <LoadingContainer>
       <LoadingContent>
-        <LoadingTitle>LVKINHAS</LoadingTitle>
+        <LoadingTitle>LVQKINHAS</LoadingTitle>
         <LoadingSubtitle>{subtitle}</LoadingSubtitle>
         
         <LoadingBar>
