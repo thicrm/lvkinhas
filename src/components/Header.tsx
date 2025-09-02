@@ -3,14 +3,14 @@ import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
-const HeaderContainer = styled.header<{ scrolled: boolean; isAboutPage: boolean; isContactPage: boolean }>`
+const HeaderContainer = styled.header<{ scrolled: boolean; isAboutPage: boolean; isContactPage: boolean; isBlogPage: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  background: ${props => (props.isAboutPage || props.isContactPage) ? 'transparent' : (props.scrolled ? 'rgba(255, 255, 255, 0.95)' : 'transparent')};
-  backdrop-filter: ${props => (props.isAboutPage || props.isContactPage) ? 'none' : (props.scrolled ? 'blur(10px)' : 'none')};
+  background: ${props => (props.isAboutPage || props.isContactPage || props.isBlogPage) ? 'transparent' : (props.scrolled ? 'rgba(255, 255, 255, 0.95)' : 'transparent')};
+  backdrop-filter: ${props => (props.isAboutPage || props.isContactPage || props.isBlogPage) ? 'none' : (props.scrolled ? 'blur(10px)' : 'none')};
   transition: all 0.3s ease;
   padding: 1rem 0;
   
@@ -32,15 +32,25 @@ const Nav = styled.nav`
   padding: 0 2rem;
 `;
 
-const Logo = styled(Link)<{ isAboutPage: boolean; isContactPage: boolean }>`
+const Logo = styled(Link)<{ isAboutPage: boolean; isContactPage: boolean; isBlogPage: boolean }>`
   font-size: 1.8rem;
   font-weight: 700;
-  color: ${props => (props.isAboutPage || props.isContactPage) ? 'white' : '#333'} !important;
+  color: ${props => {
+    if (props.isBlogPage) {
+      return 'var(--header-text-color, white)';
+    }
+    return (props.isAboutPage || props.isContactPage) ? 'white' : '#333';
+  }} !important;
   text-decoration: none;
   transition: all 0.4s ease;
   
   &:hover {
-    color: ${props => (props.isAboutPage || props.isContactPage) ? 'white' : '#333'} !important;
+    color: ${props => {
+      if (props.isBlogPage) {
+        return 'var(--header-text-color, white)';
+      }
+      return (props.isAboutPage || props.isContactPage) ? 'white' : '#333';
+    }} !important;
     transform: scale(1.03);
   }
   
@@ -62,8 +72,13 @@ const NavLinks = styled.div`
   }
 `;
 
-const NavLink = styled(Link)<{ active: boolean; isAboutPage: boolean; isContactPage: boolean }>`
-  color: ${props => (props.isAboutPage || props.isContactPage) ? 'white' : (props.active ? '#333' : '#333')};
+const NavLink = styled(Link)<{ active: boolean; isAboutPage: boolean; isContactPage: boolean; isBlogPage: boolean }>`
+  color: ${props => {
+    if (props.isBlogPage) {
+      return 'var(--header-text-color, white)';
+    }
+    return (props.isAboutPage || props.isContactPage) ? 'white' : (props.active ? '#333' : '#333');
+  }};
   font-weight: ${props => props.active ? '600' : '400'};
   position: relative;
   
@@ -74,29 +89,59 @@ const NavLink = styled(Link)<{ active: boolean; isAboutPage: boolean; isContactP
     left: 0;
     width: ${props => props.active ? '100%' : '0'};
     height: 2px;
-    background: ${props => (props.isAboutPage || props.isContactPage) ? 'white' : '#333'};
+    background: ${props => {
+      if (props.isBlogPage) {
+        return 'var(--header-text-color, white)';
+      }
+      return (props.isAboutPage || props.isContactPage) ? 'white' : '#333';
+    }};
     transition: all 0.3s ease;
   }
   
   &:hover {
-    color: ${props => (props.isAboutPage || props.isContactPage) ? 'white' : '#333'};
-    text-shadow: ${props => (props.isAboutPage || props.isContactPage) ? '0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6)' : 'none'};
+    color: ${props => {
+      if (props.isBlogPage) {
+        return 'var(--header-text-color, white)';
+      }
+      return (props.isAboutPage || props.isContactPage) ? 'white' : '#333';
+    }};
+    text-shadow: ${props => {
+      if (props.isBlogPage) {
+        return 'none';
+      }
+      return (props.isAboutPage || props.isContactPage) ? '0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6)' : 'none';
+    }};
   }
   
   &:hover::after {
     width: 100%;
-    background: ${props => (props.isAboutPage || props.isContactPage) ? 'white' : '#333'};
-    box-shadow: ${props => (props.isAboutPage || props.isContactPage) ? '0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6)' : 'none'};
+    background: ${props => {
+      if (props.isBlogPage) {
+        return 'var(--header-text-color, white)';
+      }
+      return (props.isAboutPage || props.isContactPage) ? 'white' : '#333';
+    }};
+    box-shadow: ${props => {
+      if (props.isBlogPage) {
+        return 'none';
+      }
+      return (props.isAboutPage || props.isContactPage) ? '0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6)' : 'none';
+    }};
   }
 `;
 
-const MobileMenuButton = styled.button<{ isAboutPage: boolean; isContactPage: boolean }>`
+const MobileMenuButton = styled.button<{ isAboutPage: boolean; isContactPage: boolean; isBlogPage: boolean }>`
   display: none;
   background: none;
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
-  color: ${props => (props.isAboutPage || props.isContactPage) ? 'white' : '#333'};
+  color: ${props => {
+    if (props.isBlogPage) {
+      return 'var(--header-text-color, white)';
+    }
+    return (props.isAboutPage || props.isContactPage) ? 'white' : '#333';
+  }};
   transition: all 0.3s ease;
   
   @media (max-width: 768px) {
@@ -104,7 +149,12 @@ const MobileMenuButton = styled.button<{ isAboutPage: boolean; isContactPage: bo
   }
   
   &:hover {
-    color: ${props => (props.isAboutPage || props.isContactPage) ? 'white' : '#333'};
+    color: ${props => {
+      if (props.isBlogPage) {
+        return 'var(--header-text-color, white)';
+      }
+      return (props.isAboutPage || props.isContactPage) ? 'white' : '#333';
+    }};
     transform: scale(1.1);
   }
 `;
@@ -165,16 +215,18 @@ const Header: React.FC = () => {
     { path: '/', label: 'Home' },
     { path: '/portfolio', label: 'Portfolio' },
     { path: '/about', label: 'About' },
+    { path: '/blog', label: 'Blog' },
     { path: '/contact', label: 'Contact' }
   ];
 
   const isAboutPage = location.pathname === '/about';
   const isContactPage = location.pathname === '/contact';
+  const isBlogPage = location.pathname === '/blog';
 
   return (
-    <HeaderContainer scrolled={scrolled} isAboutPage={isAboutPage} isContactPage={isContactPage}>
+    <HeaderContainer scrolled={scrolled} isAboutPage={isAboutPage} isContactPage={isContactPage} isBlogPage={isBlogPage}>
       <Nav>
-        <Logo to="/" isAboutPage={isAboutPage} isContactPage={isContactPage}>LVQKINHAS</Logo>
+        <Logo to="/" isAboutPage={isAboutPage} isContactPage={isContactPage} isBlogPage={isBlogPage}>LVQKINHAS</Logo>
         
         <NavLinks>
           {navItems.map((item) => (
@@ -184,13 +236,14 @@ const Header: React.FC = () => {
               active={location.pathname === item.path}
               isAboutPage={isAboutPage}
               isContactPage={isContactPage}
+              isBlogPage={isBlogPage}
             >
               {item.label}
             </NavLink>
           ))}
         </NavLinks>
         
-        <MobileMenuButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)} isAboutPage={isAboutPage} isContactPage={isContactPage}>
+        <MobileMenuButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)} isAboutPage={isAboutPage} isContactPage={isContactPage} isBlogPage={isBlogPage}>
           {mobileMenuOpen ? '✕' : '☰'}
         </MobileMenuButton>
       </Nav>

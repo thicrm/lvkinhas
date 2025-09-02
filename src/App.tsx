@@ -6,6 +6,7 @@ import Home from './components/Home';
 import Portfolio from './components/Portfolio';
 import About from './components/About';
 import Contact from './components/Contact';
+import Blog from './components/Blog';
 import Footer from './components/Footer';
 import GlobalStyles from './styles/GlobalStyles';
 
@@ -27,6 +28,7 @@ function App() {
             <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/blog" element={<Blog />} />
           </Routes>
         </main>
         <Footer />
