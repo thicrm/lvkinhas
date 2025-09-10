@@ -100,6 +100,7 @@ const SectionTitle = styled.h1`
   font-weight: 700;
   transition: all 0.4s ease;
   cursor: pointer;
+  font-family: 'kenpixel', 'Press Start 2P', 'VT323', 'Share Tech Mono', 'Orbitron', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   
   &:hover {
     transform: scale(1.03);
@@ -118,6 +119,12 @@ const SectionSubtitle = styled.p`
   font-size: 1.2rem;
   transition: all 0.3s ease;
   cursor: pointer;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
   
   &:hover {
     transform: scale(1.02);
@@ -147,6 +154,7 @@ const FormTitle = styled.h2`
   color: white;
   transition: all 0.3s ease;
   cursor: pointer;
+  font-family: 'kenpixel', 'Press Start 2P', 'VT323', 'Share Tech Mono', 'Orbitron', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   
   &:hover {
     transform: scale(1.02);
@@ -167,6 +175,12 @@ const Label = styled.label`
   margin-bottom: 0.5rem;
   color: white;
   font-weight: 500;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
 `;
 
 const Input = styled.input`
@@ -209,6 +223,12 @@ const SubmitButton = styled.button`
   border-radius: 10px;
   font-size: 1.1rem;
   font-weight: 600;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
   cursor: pointer;
   transition: all 0.3s ease;
   border: 2px solid rgba(255, 255, 255, 0.3);
@@ -266,6 +286,12 @@ const InfoTitle = styled.h3`
   color: white;
   transition: all 0.3s ease;
   cursor: pointer;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
   
   &:hover {
     transform: scale(1.05);
@@ -280,6 +306,12 @@ const InfoTitle = styled.h3`
 const InfoText = styled.p`
   color: white;
   line-height: 1.6;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
   transition: all 0.3s ease;
   cursor: pointer;
   
@@ -435,13 +467,12 @@ const Contact: React.FC = () => {
     <ContactSection>
       <ContactBackground />
       <Container>
-        <SectionTitle>Get In Touch</SectionTitle>
-        <SectionSubtitle>
+        <SectionSubtitle className="section-subtitle">
           
         </SectionSubtitle>
 
         <ContactForm onSubmit={handleSubmit}>
-          <FormTitle>
+          <FormTitle className="form-title">
             <i className="bi bi-chat-dots-fill" style={{ marginRight: '10px' }}></i>
             Send me a message
           </FormTitle>
@@ -467,7 +498,7 @@ const Contact: React.FC = () => {
           )}
 
           <FormGroup>
-            <Label htmlFor="name">Name *</Label>
+            <Label className="contact-label" htmlFor="name">Name *</Label>
             <Input
               type="text"
               id="name"
@@ -479,7 +510,7 @@ const Contact: React.FC = () => {
           </FormGroup>
 
           <FormGroup>
-            <Label htmlFor="email">Email *</Label>
+            <Label className="contact-label" htmlFor="email">Email *</Label>
             <Input
               type="email"
               id="email"
@@ -491,7 +522,7 @@ const Contact: React.FC = () => {
           </FormGroup>
 
           <FormGroup>
-            <Label htmlFor="subject">Subject *</Label>
+            <Label className="contact-label" htmlFor="subject">Subject *</Label>
             <Input
               type="text"
               id="subject"
@@ -503,7 +534,7 @@ const Contact: React.FC = () => {
           </FormGroup>
 
           <FormGroup>
-            <Label htmlFor="message">Message *</Label>
+            <Label className="contact-label" htmlFor="message">Message *</Label>
             <TextArea
               id="message"
               name="message"
@@ -514,7 +545,7 @@ const Contact: React.FC = () => {
             />
           </FormGroup>
 
-          <SubmitButton type="submit" disabled={isSubmitting}>
+          <SubmitButton className="button-text" type="submit" disabled={isSubmitting}>
             {isSubmitting ? 'Sending...' : 'Send Message'}
           </SubmitButton>
         </ContactForm>
@@ -527,8 +558,8 @@ const Contact: React.FC = () => {
             viewport={{ once: true }}
           >
             <InfoIcon>📍</InfoIcon>
-            <InfoTitle>Location</InfoTitle>
-            <InfoText>
+            <InfoTitle className="contact-info-title">Location</InfoTitle>
+            <InfoText className="contact-info-text">
               Based in São Paulo, serving the greater metropolitan area and available for travel.
             </InfoText>
           </InfoCard>
@@ -540,8 +571,8 @@ const Contact: React.FC = () => {
             viewport={{ once: true }}
           >
             <InfoIcon>📧</InfoIcon>
-            <InfoTitle>Email</InfoTitle>
-            <InfoText>
+            <InfoTitle className="contact-info-title">Email</InfoTitle>
+            <InfoText className="contact-info-text">
              lvcascavallini@gmail.com<br />
             </InfoText>
           </InfoCard>
@@ -553,8 +584,8 @@ const Contact: React.FC = () => {
             viewport={{ once: true }}
           >
             <InfoIcon>📱</InfoIcon>
-            <InfoTitle>Phone</InfoTitle>
-            <InfoText>
+            <InfoTitle className="contact-info-title">Phone</InfoTitle>
+            <InfoText className="contact-info-text">
               +55 11 98104-5537<br />
             </InfoText>
           </InfoCard>
@@ -566,8 +597,8 @@ const Contact: React.FC = () => {
             viewport={{ once: true }}
           >
             <InfoIcon>🌐</InfoIcon>
-            <InfoTitle>Follow Me</InfoTitle>
-            <InfoText>
+            <InfoTitle className="contact-info-title">Follow Me</InfoTitle>
+            <InfoText className="contact-info-text">
               Stay updated with my latest work and behind-the-scenes moments.
             </InfoText>
             <SocialLinks>

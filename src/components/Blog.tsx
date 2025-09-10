@@ -139,7 +139,7 @@ const ColorShiftOverlay = styled.div`
 
 const ThemeSwitcher = styled.div<{ $isFooterVisible: boolean }>`
   position: fixed;
-  top: ${props => props.$isFooterVisible ? 'calc(100vh - 884px)' : '120px'};
+  top: ${props => props.$isFooterVisible ? 'calc(100vh - 980px)' : '120px'};
   right: 200px;
   display: flex;
   flex-direction: column;
@@ -149,14 +149,14 @@ const ThemeSwitcher = styled.div<{ $isFooterVisible: boolean }>`
   transition: top 0.3s ease;
   
   @media (max-width: 768px) {
-    top: ${props => props.$isFooterVisible ? 'calc(100vh - 864px)' : '100px'};
+    top: ${props => props.$isFooterVisible ? 'calc(100vh - 960px)' : '100px'};
     right: 150px;
   }
 `;
 
 const MessageBoard = styled.div<{ $isFooterVisible: boolean }>`
   position: fixed;
-  top: ${props => props.$isFooterVisible ? 'calc(100vh - 1064px)' : '120px'};
+  top: ${props => props.$isFooterVisible ? 'calc(100vh - 1200px)' : '120px'};
   left: 20px;
   width: 300px;
   z-index: 1001;
@@ -166,7 +166,7 @@ const MessageBoard = styled.div<{ $isFooterVisible: boolean }>`
   transition: top 0.3s ease;
   
   @media (max-width: 768px) {
-    top: ${props => props.$isFooterVisible ? 'calc(100vh - 1044px)' : '100px'};
+    top: ${props => props.$isFooterVisible ? 'calc(100vh - 1180px)' : '100px'};
     left: 15px;
     width: 250px;
   }
@@ -207,7 +207,7 @@ const MessageBoardTitle = styled.h3<{ theme?: string }>`
   font-size: 1.2rem;
   margin: 0 0 1rem 0;
   text-align: center;
-  font-family: 'Courier New', monospace;
+  font-family: 'kenpixel', 'Press Start 2P', 'VT323', 'Share Tech Mono', 'Orbitron', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 `;
 
 const MessageForm = styled.form`
@@ -359,17 +359,35 @@ const MessageUsername = styled.span<{ theme?: string }>`
   color: var(--highlight-color, #0080ff);
   font-weight: 600;
   font-size: 0.9rem;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
 `;
 
 const MessageTime = styled.span<{ theme?: string }>`
   color: ${props => props.theme === 'white' ? 'rgba(0, 0, 0, 0.6)' : 'rgba(255, 255, 255, 0.6)'};
   font-size: 0.8rem;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
 `;
 
 const MessageContent = styled.p<{ theme?: string }>`
   color: ${props => props.theme === 'white' ? 'black' : 'white'};
   margin: 0;
   font-size: 0.9rem;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
   line-height: 1.4;
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -436,7 +454,12 @@ const BlogSubtitle = styled(motion.p)<{ theme?: string }>`
   font-size: 1.3rem;
   color: ${props => props.theme === 'white' ? 'black' : 'white'};
   text-shadow: ${props => props.theme === 'white' ? '0 0 8px rgba(0, 0, 0, 0.6)' : '0 0 8px rgba(255, 255, 255, 0.6)'};
-  font-family: 'Courier New', monospace;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
   letter-spacing: 1px;
   opacity: 0.9;
 `;
@@ -457,6 +480,12 @@ const SearchInput = styled.input<{ theme?: string }>`
   color: ${props => props.theme === 'white' ? 'black' : 'white'};
   font-size: 1.1rem;
   backdrop-filter: blur(10px);
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
   transition: all 0.3s ease;
   
   &::placeholder {
@@ -494,6 +523,12 @@ const FilterTag = styled.button<{ active: boolean; theme?: string }>`
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.9rem;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
   
   &:hover {
     background: ${props => props.theme === 'white' ? 'rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.2)'};
@@ -573,7 +608,7 @@ const PostTitle = styled.h2`
   margin-bottom: 1rem;
   font-weight: 600;
   text-shadow: 0 0 8px rgba(0, 128, 255, 0.6);
-  font-family: 'Courier New', monospace;
+  font-family: 'kenpixel', 'Press Start 2P', 'VT323', 'Share Tech Mono', 'Orbitron', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   line-height: 1.2;
   flex: 1;
   min-width: 300px;
@@ -591,26 +626,39 @@ const PostMeta = styled.div`
 
 const PostDate = styled.p`
   color: #00bfff;
-  font-size: 1rem;
   margin-bottom: 0.5rem;
   opacity: 0.8;
-  font-family: 'Courier New', monospace;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
   border-left: 2px solid rgba(0, 191, 255, 0.3);
   padding-left: 0.8rem;
 `;
 
 const PostReadTime = styled.p`
   color: #00bfff;
-  font-size: 0.9rem;
   opacity: 0.7;
-  font-family: 'Courier New', monospace;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
 `;
 
 const PostContent = styled.div<{ theme?: string }>`
   color: ${props => props.theme === 'white' ? 'black' : 'white'};
   line-height: 1.8;
   margin-bottom: 2rem;
-  font-size: 1.1rem;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
   
   p {
     margin-bottom: 1.2rem;
@@ -632,6 +680,12 @@ const PostTag = styled(motion.span)<{ theme?: string }>`
   font-size: 0.8rem;
   font-weight: 500;
   display: inline-block;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
   margin-right: 0.5rem;
   margin-bottom: 0.5rem;
   transition: all 0.3s ease;
@@ -1128,7 +1182,7 @@ const Blog: React.FC = () => {
             '--scanlines-color': currentColors.scanlines,
           } as React.CSSProperties}
         >
-          <MessageBoardTitle theme={currentTheme}>
+          <MessageBoardTitle theme={currentTheme} className="message-board-title">
             Message Board
           </MessageBoardTitle>
           
@@ -1180,6 +1234,7 @@ const Blog: React.FC = () => {
             >
               <MessageHeader>
                 <MessageUsername 
+                  className="message-board-text"
                   theme={currentTheme}
                   style={{
                     '--highlight-color': currentColors.highlight,
@@ -1187,11 +1242,11 @@ const Blog: React.FC = () => {
                 >
                   {message.username}
                 </MessageUsername>
-                <MessageTime theme={currentTheme}>
+                <MessageTime className="message-board-text" theme={currentTheme}>
                   {formatTime(message.timestamp)}
                 </MessageTime>
               </MessageHeader>
-              <MessageContent theme={currentTheme}>
+              <MessageContent className="message-board-text" theme={currentTheme}>
                 {message.content}
               </MessageContent>
             </MessageItem>
@@ -1234,6 +1289,7 @@ const Blog: React.FC = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <SearchInput
+            className="search-bar-text"
             type="text"
             placeholder="Search articles, tags, or topics..."
             value={searchTerm}
@@ -1245,6 +1301,7 @@ const Blog: React.FC = () => {
             {categories.map((category) => (
               <FilterTag
                 key={category.id}
+                className="tag-text"
                 active={selectedCategory === category.id}
                 onClick={() => handleCategoryChange(category.id)}
                 theme={currentTheme}
@@ -1277,20 +1334,20 @@ const Blog: React.FC = () => {
                 } as React.CSSProperties}
               >
                 <PostHeader>
-              <PostTitle style={{ color: currentColors.highlight, textShadow: `0 0 8px ${currentColors.highlight}40` }}>
+              <PostTitle className="post-title" style={{ color: currentColors.highlight, textShadow: `0 0 8px ${currentColors.highlight}40` }}>
                 {post.title}
               </PostTitle>
                   <PostMeta>
-              <PostDate style={{ color: currentColors.accent, borderLeftColor: `${currentColors.accent}40` }}>
+              <PostDate className="post-date" style={{ color: currentColors.accent, borderLeftColor: `${currentColors.accent}40` }}>
                 {post.date}
               </PostDate>
-                    <PostReadTime style={{ color: currentColors.accent }}>
+                    <PostReadTime className="post-read-time" style={{ color: currentColors.accent }}>
                       {post.readTime}
                     </PostReadTime>
                   </PostMeta>
                 </PostHeader>
                 
-                <PostContent theme={currentTheme}>
+                <PostContent className="post-content" theme={currentTheme}>
                 <p>{post.excerpt}</p>
               </PostContent>
                 
@@ -1298,6 +1355,7 @@ const Blog: React.FC = () => {
                 {post.tags.map((tag, tagIndex) => (
                   <PostTag 
                     key={tagIndex}
+                    className="tag-text"
                       theme={currentTheme}
                     style={{
                         '--accent-color': currentColors.accent,

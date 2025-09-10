@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from './components/Header';
 import Home from './components/Home';
@@ -16,23 +16,36 @@ const AppContainer = styled.div`
   flex-direction: column;
 `;
 
+function AppContent() {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Add className to body based on current route
+    document.body.className = location.pathname === '/' ? 'homepage' : '';
+  }, [location]);
+
+  return (
+    <AppContainer>
+      <Header />
+      <main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/portfolio" element={<Portfolio />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/blog" element={<Blog />} />
+        </Routes>
+      </main>
+      <Footer />
+    </AppContainer>
+  );
+}
+
 function App() {
   return (
     <Router>
       <GlobalStyles />
-      <AppContainer>
-        <Header />
-        <main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/portfolio" element={<Portfolio />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/blog" element={<Blog />} />
-          </Routes>
-        </main>
-        <Footer />
-      </AppContainer>
+      <AppContent />
     </Router>
   );
 }

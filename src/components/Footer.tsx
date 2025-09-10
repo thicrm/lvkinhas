@@ -27,12 +27,24 @@ const FooterTitle = styled.h3`
   margin-bottom: 1rem;
   color: #fff;
   font-size: 1.2rem;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
 `;
 
 const FooterText = styled.p`
   color: #ccc;
   line-height: 1.6;
   margin-bottom: 1rem;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
 `;
 
 const FooterLinks = styled.div`
@@ -45,6 +57,12 @@ const FooterLink = styled(Link)`
   color: #ccc;
   text-decoration: none;
   transition: color 0.3s ease;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
   
   &:hover {
     color: white;
@@ -86,6 +104,12 @@ const FooterBottom = styled.div`
 
 const Copyright = styled.p`
   margin-bottom: 1rem;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
 `;
 
 const FooterBottomLinks = styled.div`
@@ -99,6 +123,12 @@ const FooterBottomLink = styled(Link)`
   color: #ccc;
   text-decoration: none;
   transition: color 0.3s ease;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
   
   &:hover {
     color: white;
@@ -114,8 +144,8 @@ const Footer: React.FC = () => {
       <FooterContent>
         <FooterGrid>
           <FooterSection>
-            <FooterTitle>Lucas Cavallini</FooterTitle>
-            <FooterText>
+            <FooterTitle className="footer-text">Lucas Cavallini</FooterTitle>
+            <FooterText className="footer-text">
             Professional photographer, journalist and all-around creative in the realm of image making. Born in Belém - PA, Lucas came to São Paulo at a very early age and started meddling with analog photography circa 2018. From then, Lucas has turned into a competent professional, mainly photographing events and fashion tied to the current nightlife scene in São Paulo.
             </FooterText>
             <SocialLinks>
@@ -126,20 +156,20 @@ const Footer: React.FC = () => {
           </FooterSection>
 
           <FooterSection>
-            <FooterTitle>Quick Links</FooterTitle>
+            <FooterTitle className="footer-text">Quick Links</FooterTitle>
             <FooterLinks>
-              <FooterLink to="/">Home</FooterLink>
-              <FooterLink to="/portfolio">Portfolio</FooterLink>
-              <FooterLink to="/about">About</FooterLink>
-              <FooterLink to="/contact">Contact</FooterLink>
+              <FooterLink className="nav-link" to="/">Home</FooterLink>
+              <FooterLink className="nav-link" to="/portfolio">Portfolio</FooterLink>
+              <FooterLink className="nav-link" to="/about">About</FooterLink>
+              <FooterLink className="nav-link" to="/contact">Contact</FooterLink>
             </FooterLinks>
           </FooterSection>
 
 
 
           <FooterSection>
-            <FooterTitle>Contact Info</FooterTitle>
-            <FooterText>
+            <FooterTitle className="footer-text">Contact Info</FooterTitle>
+            <FooterText className="footer-text">
               📍 São Paulo, SP<br />
               📧 lvcascavallini@gmail.com<br />
               📱 +55 11 98104-5537
@@ -148,14 +178,14 @@ const Footer: React.FC = () => {
         </FooterGrid>
 
         <FooterBottom>
-          <Copyright>
+          <Copyright className="footer-text">
             © {currentYear} Lucas Cavallini. All rights reserved. <br />
             Website by Thiago Carmo.
           </Copyright>
           <FooterBottomLinks>
-            <FooterBottomLink to="/privacy">Privacy Policy</FooterBottomLink>
-            <FooterBottomLink to="/terms">Terms of Service</FooterBottomLink>
-            <FooterBottomLink to="/sitemap">Sitemap</FooterBottomLink>
+            <FooterBottomLink className="nav-link" to="/privacy">Privacy Policy</FooterBottomLink>
+            <FooterBottomLink className="nav-link" to="/terms">Terms of Service</FooterBottomLink>
+            <FooterBottomLink className="nav-link" to="/sitemap">Sitemap</FooterBottomLink>
           </FooterBottomLinks>
         </FooterBottom>
       </FooterContent>

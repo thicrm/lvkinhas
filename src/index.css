@@ -1,4 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Handjet:wght@100..900&display=swap');
+
+@font-face {
+  font-family: 'kenpixel';
+  src: local('kenpixel'),
+       url('/fonts/kenpixel.ttf') format('truetype'),
+       url('/fonts/kenpixel_square.ttf') format('truetype'),
+       url('/fonts/kenpixel_high.ttf') format('truetype'),
+       url('/fonts/kenpixel_future.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
 
 body {
   margin: 0;
@@ -8,6 +26,57 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Handjet font classes for subtitle and content text */
+.handjet-thin {
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 100;
+  font-style: normal;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
+}
+
+.handjet-light {
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-style: normal;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
+}
+
+.handjet-regular {
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
+}
+
+.handjet-medium {
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
+}
+
+.handjet-bold {
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
 }
 
 code {
@@ -67,3 +136,224 @@ code {
   scrollbar-width: thin;
   scrollbar-color: #2a2a2a #0a0a0a;
 }
+
+/* Chrome-specific font size adjustments */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  /* Target Chrome browser specifically */
+  .header-logo {
+    font-size: 1.4rem !important; /* Smaller than default 1.8rem */
+  }
+  
+  .hero-title {
+    font-size: 3rem !important; /* Smaller than default 4rem */
+  }
+  
+  .section-title {
+    font-size: 2rem !important; /* Smaller than default 2.5rem */
+  }
+  
+  .loading-title {
+    font-size: 2.4rem !important; /* Smaller than default 3rem */
+  }
+  
+  .portfolio-title {
+    font-size: 2rem !important; /* Smaller than default size */
+  }
+  
+  .about-title {
+    font-size: 2rem !important; /* Smaller than default size */
+  }
+  
+  .message-board-title {
+    font-size: 1rem !important; /* Smaller than default 1.2rem */
+  }
+  
+  .post-title {
+    font-size: 1.8rem !important; /* Smaller than default 2.2rem */
+  }
+  
+  .contact-title {
+    font-size: 2rem !important; /* Smaller than default 2.5rem */
+  }
+  
+  .form-title {
+    font-size: 1.4rem !important; /* Smaller than default size */
+  }
+  
+  @media (max-width: 768px) {
+    .header-logo {
+      font-size: 1.1rem !important; /* Smaller mobile size */
+    }
+    
+    .hero-title {
+      font-size: 2rem !important; /* Smaller mobile size */
+    }
+    
+    .section-title {
+      font-size: 1.6rem !important; /* Smaller mobile size */
+    }
+    
+    .loading-title {
+      font-size: 1.6rem !important; /* Smaller mobile size */
+    }
+    
+    .portfolio-title {
+      font-size: 1.6rem !important; /* Smaller mobile size */
+    }
+    
+    .about-title {
+      font-size: 1.6rem !important; /* Smaller mobile size */
+    }
+    
+    .message-board-title {
+      font-size: 0.9rem !important; /* Smaller mobile size */
+    }
+    
+    .post-title {
+      font-size: 1.4rem !important; /* Smaller mobile size */
+    }
+    
+    .contact-title {
+      font-size: 1.6rem !important; /* Smaller mobile size */
+    }
+    
+    .form-title {
+      font-size: 1.1rem !important; /* Smaller mobile size */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .header-logo {
+      font-size: 0.9rem !important; /* Smaller small mobile size */
+    }
+    
+    .hero-title {
+      font-size: 1.5rem !important; /* Smaller small mobile size */
+    }
+    
+    .section-title {
+      font-size: 1.2rem !important; /* Smaller small mobile size */
+    }
+    
+    .loading-title {
+      font-size: 1.2rem !important; /* Smaller small mobile size */
+    }
+    
+    .portfolio-title {
+      font-size: 1.2rem !important; /* Smaller small mobile size */
+    }
+    
+    .about-title {
+      font-size: 1.2rem !important; /* Smaller small mobile size */
+    }
+    
+    .message-board-title {
+      font-size: 0.8rem !important; /* Smaller small mobile size */
+    }
+    
+    .post-title {
+      font-size: 1.1rem !important; /* Smaller small mobile size */
+    }
+    
+    .contact-title {
+      font-size: 1.2rem !important; /* Smaller small mobile size */
+    }
+    
+  .form-title {
+    font-size: 0.9rem !important; /* Smaller small mobile size */
+    }
+  }
+}
+
+/* Universal Handjet font size set to 1.5rem across entire website */
+
+/* All Handjet font classes */
+.handjet-thin,
+.handjet-light,
+.handjet-regular,
+.handjet-medium,
+.handjet-bold {
+  font-size: 1.5rem !important;
+}
+
+/* All components using Handjet font across entire website */
+.hero-subtitle,
+.section-subtitle,
+.about-text,
+.contact-label,
+.contact-info-title,
+.contact-info-text,
+.blog-subtitle,
+.post-date,
+.post-read-time,
+.post-content,
+.post-content p,
+.message-board-text,
+.footer-text,
+.button-text,
+.skills-text,
+.search-bar-text,
+.tag-text,
+.nav-link,
+.loading-subtitle {
+  font-size: 1.5rem !important;
+}
+
+/* Universal selector for any element with Handjet font family */
+*[style*="font-family: Handjet"],
+*[style*="font-family: \"Handjet\""] {
+  font-size: 1.5rem !important;
+}
+
+/* Message board content text - specific size for comments */
+.message-board-text {
+  font-size: 1.0rem !important;
+}
+
+/* Homepage hero subtitle - specific size for "Texture. Color. Movement." */
+.hero-subtitle {
+  font-size: 2.0rem !important;
+}
+
+/* Portfolio page subtitle - specific size */
+.portfolio-subtitle {
+  font-size: 2.0rem !important;
+}
+
+/* About page subtitle - specific size */
+.about-subtitle {
+  font-size: 2.0rem !important;
+}
+
+/* About page text specifically - ensure it matches portfolio subtitle size */
+.about-text {
+  font-size: 2.0rem !important;
+}
+
+/* About page emojis and text hover effects */
+.about-emojis,
+.about-text {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.about-emojis:hover,
+.about-text:hover {
+  transform: scale(1.1);
+  text-shadow: 
+    0 0 10px rgba(255, 255, 255, 0.8),
+    0 0 20px rgba(255, 255, 255, 0.6),
+    0 0 30px rgba(255, 255, 255, 0.4);
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
+}
+
+/* Homepage navigation links white glow - increased intensity */
+body.homepage .nav-link {
+  text-shadow: 
+    0 0 12px rgba(255, 255, 255, 0.9),
+    0 0 24px rgba(255, 255, 255, 0.7),
+    0 0 36px rgba(255, 255, 255, 0.5),
+    0 0 48px rgba(255, 255, 255, 0.3);
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+}
+

@@ -27,6 +27,7 @@ const SectionTitle = styled.h1`
   text-align: center;
   margin-bottom: 1rem;
   color: #333;
+  font-family: 'kenpixel', 'Press Start 2P', 'VT323', 'Share Tech Mono', 'Orbitron', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 `;
 
 const SectionSubtitle = styled.p`
@@ -34,6 +35,12 @@ const SectionSubtitle = styled.p`
   color: #666;
   margin-bottom: 3rem;
   font-size: 1.2rem;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
 `;
 
 
@@ -306,8 +313,7 @@ const Portfolio: React.FC = () => {
   return (
     <PortfolioSection>
       <Container>
-        <SectionTitle>Portfolio</SectionTitle>
-        <SectionSubtitle>
+        <SectionSubtitle className="portfolio-subtitle">
           Explore my latest work and creative vision
         </SectionSubtitle>
 

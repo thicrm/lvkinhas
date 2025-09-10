@@ -35,6 +35,7 @@ const Nav = styled.nav`
 const Logo = styled(Link)<{ isAboutPage: boolean; isContactPage: boolean; isBlogPage: boolean }>`
   font-size: 1.8rem;
   font-weight: 700;
+  font-family: 'kenpixel', 'Press Start 2P', 'VT323', 'Share Tech Mono', 'Orbitron', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   color: ${props => {
     if (props.isBlogPage) {
       return 'var(--header-text-color, white)';
@@ -81,6 +82,12 @@ const NavLink = styled(Link)<{ active: boolean; isAboutPage: boolean; isContactP
   }};
   font-weight: ${props => props.active ? '600' : '400'};
   position: relative;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
   
   &::after {
     content: '';
@@ -185,6 +192,12 @@ const MobileNavLink = styled(Link)`
   color: #333;
   font-weight: 500;
   transition: all 0.3s ease;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
   
   &:hover {
     color: white;
@@ -226,7 +239,7 @@ const Header: React.FC = () => {
   return (
     <HeaderContainer scrolled={scrolled} isAboutPage={isAboutPage} isContactPage={isContactPage} isBlogPage={isBlogPage}>
       <Nav>
-        <Logo to="/" isAboutPage={isAboutPage} isContactPage={isContactPage} isBlogPage={isBlogPage}>LVQKINHAS</Logo>
+        <Logo to="/" isAboutPage={isAboutPage} isContactPage={isContactPage} isBlogPage={isBlogPage} className="header-logo">LVQKINHAS</Logo>
         
         <NavLinks>
           {navItems.map((item) => (
@@ -237,6 +250,7 @@ const Header: React.FC = () => {
               isAboutPage={isAboutPage}
               isContactPage={isContactPage}
               isBlogPage={isBlogPage}
+              className="nav-link"
             >
               {item.label}
             </NavLink>
@@ -259,6 +273,7 @@ const Header: React.FC = () => {
               key={item.path}
               to={item.path}
               onClick={() => setMobileMenuOpen(false)}
+              className="nav-link"
             >
               {item.label}
             </MobileNavLink>

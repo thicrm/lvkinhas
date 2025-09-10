@@ -16,6 +16,35 @@
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Handjet:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="preload" href="/fonts/kenpixel.ttf" as="font" type="font/ttf" crossorigin>
+    <script>
+      // Font loader for Chrome compatibility
+      document.fonts.ready.then(() => {
+        console.log('Fonts loaded');
+      });
+
+      // Try to load the updated kenpixel font
+      const font = new FontFace('kenpixel', 'url(/fonts/kenpixel.ttf)');
+      font.load().then((loadedFont) => {
+        document.fonts.add(loadedFont);
+        console.log('Updated Kenpixel font loaded successfully');
+      }).catch((error) => {
+        console.error('Failed to load updated kenpixel font:', error);
+        // Try square variation
+        const squareFont = new FontFace('kenpixel', 'url(/fonts/kenpixel_square.ttf)');
+        return squareFont.load();
+      }).then((loadedFont) => {
+        if (loadedFont) {
+          document.fonts.add(loadedFont);
+          console.log('Kenpixel square font loaded successfully');
+        }
+      }).catch((error) => {
+        console.error('All kenpixel font loading attempts failed:', error);
+      });
+    </script>
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.

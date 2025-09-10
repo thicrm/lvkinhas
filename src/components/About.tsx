@@ -92,6 +92,7 @@ const SectionTitle = styled.h1`
   position: relative;
   transition: all 0.3s ease;
   cursor: pointer;
+  font-family: 'kenpixel', 'Press Start 2P', 'VT323', 'Share Tech Mono', 'Orbitron', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   
   &::before {
     content: '🧙‍♀️🔮';
@@ -122,7 +123,12 @@ const SectionSubtitle = styled.p`
   color: white;
   margin-bottom: 4rem;
   font-size: 1.2rem;
-  font-style: italic;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
 `;
 
 const AboutGrid = styled.div`
@@ -189,6 +195,12 @@ const AboutText = styled(motion.p)`
   color: white;
   margin-bottom: 2rem;
   position: relative;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
   
   /* Mystical text glow */
   text-shadow: 0 0 1px rgba(120, 0, 255, 0.1);
@@ -264,6 +276,12 @@ const SkillName = styled.h3`
   position: relative;
   z-index: 2;
   text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
 `;
 
 const SkillDescription = styled.p`
@@ -273,6 +291,12 @@ const SkillDescription = styled.p`
   z-index: 2;
   margin-bottom: 1rem;
   font-size: 0.85rem;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
 `;
 
 const SkillBarContainer = styled.div`
@@ -636,9 +660,9 @@ const About: React.FC = () => {
           <i className={`bi ${isMuted ? 'bi-volume-mute' : 'bi-volume-up'}`}></i>
         </SoundToggleButton>
       <Container>
-        <SectionTitle>About Me</SectionTitle>
-        <SectionSubtitle>
-          Wizard of light and shadow.
+        <SectionSubtitle className="section-subtitle about-subtitle">
+          <div className="about-emojis">🧙‍♀️🔮</div>
+          <div className="about-text">Wizard of light and shadow.</div>
         </SectionSubtitle>
 
         <AboutGrid>
@@ -662,8 +686,8 @@ const About: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: index * 0.05 }}
                   >
-                    <SkillName className="skill-name">{skill.name}</SkillName>
-                    <SkillDescription>{skill.description}</SkillDescription>
+                    <SkillName className="skill-name skills-text">{skill.name}</SkillName>
+                    <SkillDescription className="skills-text">{skill.description}</SkillDescription>
                     <SkillBarContainer>
                       <SkillBarBackground className="skill-bar-background">
                         <SkillBarFill className="skill-bar-fill" level={skill.level} />
@@ -678,6 +702,7 @@ const About: React.FC = () => {
 
           <AboutContent>
             <AboutText
+              className="about-text"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.4 }}
@@ -687,6 +712,7 @@ const About: React.FC = () => {
             </AboutText>
             
             <AboutText
+              className="about-text"
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.4, delay: 0.1 }}
@@ -696,6 +722,7 @@ const About: React.FC = () => {
             </AboutText>
             
             <AboutText
+              className="about-text"
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.4, delay: 0.2 }}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Font Test</title>
+    <style>
+        @font-face {
+            font-family: 'kenpixel';
+            src: url('/fonts/kenpixel.ttf') format('truetype'),
+                 url('/fonts/kenpixel_square.ttf') format('truetype'),
+                 url('/fonts/kenpixel_high.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        .test-font {
+            font-family: 'kenpixel', Arial, sans-serif;
+            font-size: 48px;
+            color: white;
+            background: black;
+            padding: 20px;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body style="background: black; color: white; font-family: Arial;">
+    <h1>Font Loading Test</h1>
+    <div class="test-font">LVQKINHAS - Kenpixel Font Test</div>
+    <div style="font-family: Arial; font-size: 48px; margin: 20px;">LVQKINHAS - Arial Font (Fallback)</div>
+    
+    <script>
+        // Test font loading
+        document.fonts.ready.then(() => {
+            console.log('All fonts loaded');
+            document.fonts.forEach(font => {
+                console.log('Loaded font:', font.family, font.style, font.weight);
+            });
+        });
+        
+        // Test specific font
+        const testFont = new FontFace('kenpixel', 'url(/fonts/kenpixel.ttf)');
+        testFont.load().then(font => {
+            console.log('Kenpixel font loaded successfully');
+            document.fonts.add(font);
+        }).catch(error => {
+            console.error('Kenpixel font failed to load:', error);
+        });
+    </script>
+</body>
+</html>

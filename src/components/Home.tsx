@@ -34,6 +34,7 @@ const HeroContent = styled.div`
 
 const HeroTitle = styled(motion.h1)`
   font-size: 4rem;
+  font-family: 'kenpixel', 'Press Start 2P', 'VT323', 'Share Tech Mono', 'Orbitron', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   font-weight: 700;
   margin-bottom: 1.5rem;
   text-shadow: 
@@ -86,7 +87,13 @@ const HeroSubtitle = styled(motion.p)`
   filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
   transition: all 0.3s ease;
   cursor: pointer;
-  font-weight: 400;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
   -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.3);
   text-stroke: 0.5px rgba(255, 255, 255, 0.3);
   
@@ -188,7 +195,12 @@ const HeroButton = styled(Link)`
   border-radius: 8px;
   font-weight: 700;
   font-size: 1.1rem;
-  font-family: 'Courier New', monospace;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
   text-transform: uppercase;
   letter-spacing: 2px;
   transition: all 0.3s ease;
@@ -254,20 +266,21 @@ const SectionTitle = styled(motion.h2)`
   color: white;
   font-size: 2.5rem;
   font-weight: 700;
+  font-family: 'kenpixel', 'Press Start 2P', 'VT323', 'Share Tech Mono', 'Orbitron', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   text-transform: uppercase;
   letter-spacing: 3px;
   text-shadow: 
-    0 0 10px rgba(135, 206, 235, 0.6),
-    0 0 20px rgba(135, 206, 235, 0.4);
+    0 0 10px rgba(255, 255, 255, 0.6),
+    0 0 20px rgba(255, 255, 255, 0.4);
   position: relative;
   cursor: pointer;
   transition: all 0.4s ease;
   transform-origin: center;
-  filter: drop-shadow(0 0 30px rgba(135, 206, 235, 0.2));
+  filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.2));
   
   &:hover {
     transform: scale(1.03) !important;
-    filter: drop-shadow(0 0 40px rgba(135, 206, 235, 0.4));
+    filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.4));
   }
 `;
 
@@ -527,7 +540,7 @@ const MediaItem = styled(motion.div)`
     max-height: 100%;
     object-fit: contain;
     border-radius: 8px;
-    box-shadow: 0 0 30px rgba(135, 206, 235, 0.2);
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
     transition: all 0.4s ease;
   }
   
@@ -536,9 +549,9 @@ const MediaItem = styled(motion.div)`
     
     img, video {
       box-shadow: 
-        0 0 30px rgba(135, 206, 235, 0.5),
-        0 0 60px rgba(135, 206, 235, 0.3),
-        0 0 90px rgba(135, 206, 235, 0.2);
+        0 0 30px rgba(255, 255, 255, 0.5),
+        0 0 60px rgba(255, 255, 255, 0.3),
+        0 0 90px rgba(255, 255, 255, 0.2);
     }
   }
 `;
@@ -586,10 +599,11 @@ const Home: React.FC = () => {
   
   return (
     <>
-      <HeroSection>
+      <HeroSection className="homepage">
         <HeroBackground />
         <HeroContent>
           <HeroTitle
+            className="hero-title"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -597,6 +611,7 @@ const Home: React.FC = () => {
             LUCAS CAVALLINI
           </HeroTitle>
           <HeroSubtitle
+            className="hero-subtitle"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -610,8 +625,8 @@ const Home: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <HeroButton to="/portfolio">View Portfolio</HeroButton>
-            <HeroButton to="/contact">Get in Touch</HeroButton>
+            <HeroButton className="button-text" to="/portfolio">View Portfolio</HeroButton>
+            <HeroButton className="button-text" to="/contact">Get in Touch</HeroButton>
           </HeroButtons>
         </HeroContent>
       </HeroSection>
@@ -619,6 +634,7 @@ const Home: React.FC = () => {
       <FeaturedSection>
         <Container>
           <SectionTitle
+            className="section-title"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
