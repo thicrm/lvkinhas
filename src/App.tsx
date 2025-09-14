@@ -8,6 +8,7 @@ import About from './components/About';
 import Contact from './components/Contact';
 import Blog from './components/Blog';
 import Footer from './components/Footer';
+import AdminDashboard from './components/Admin/AdminDashboard';
 import GlobalStyles from './styles/GlobalStyles';
 
 const AppContainer = styled.div`
@@ -34,6 +35,7 @@ function AppContent() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
       </main>
       <Footer />

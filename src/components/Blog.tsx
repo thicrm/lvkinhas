@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import ThreeJSTitle from './ThreeJSTitle';
+import { blogService, BlogPost as BlogPostType } from '../services/blogService';
 
 const BlogContainer = styled.div`
   min-height: 100vh;
@@ -956,73 +957,17 @@ const Blog: React.FC = () => {
 
   const currentColors = themes[currentTheme];
 
-  // Enhanced blog posts with photography content
-  const blogPosts = [
-    {
-      id: 1,
-      title: "Capturing São Paulo's Nightlife: A Photographer's Journey",
-      date: "December 15, 2024",
-      readTime: "8 min read",
-      excerpt: "São Paulo's vibrant nightlife scene offers a unique blend of energy, culture, and artistic expression that's perfect for street photography. From the underground clubs in Vila Madalena to the sophisticated bars in Jardins, each venue tells a different story. This post explores my approach to capturing the essence of São Paulo after dark, including techniques for low-light photography, composition strategies for crowded environments, and how to blend into the scene while getting authentic shots.",
-      tags: ["Street Photography", "Nightlife", "São Paulo", "Low Light"],
-      category: "street"
-    },
-    {
-      id: 2,
-      title: "The Art of Fashion Photography: From Concept to Final Image",
-      date: "December 10, 2024",
-      readTime: "12 min read",
-      excerpt: "Fashion photography is more than just taking pictures of clothes - it's about storytelling, mood creation, and artistic vision. In this comprehensive guide, I share my process from initial concept development to final image delivery. We'll cover everything from mood boards and location scouting to lighting setups and post-processing techniques. Whether you're working with models, stylists, or creating editorial spreads, understanding the collaborative nature of fashion photography is key to producing compelling work.",
-      tags: ["Fashion", "Editorial", "Portraiture", "Lighting"],
-      category: "fashion"
-    },
-    {
-      id: 3,
-      title: "Analog vs Digital: Why I Still Shoot Film in 2024",
-      date: "December 5, 2024",
-      readTime: "10 min read",
-      excerpt: "Despite the incredible advances in digital photography, I continue to shoot film for both personal and professional projects. This isn't just nostalgia - there are tangible benefits to film photography that digital still can't replicate. From the unique grain structure and color rendition to the deliberate approach it requires, film photography teaches patience and intentionality. I'll share my favorite film stocks, development processes, and how I integrate analog techniques into my digital workflow.",
-      tags: ["Analog", "Film", "Technique", "Workflow"],
-      category: "technique"
-    },
-    {
-      id: 4,
-      title: "Event Photography: Capturing Moments That Matter",
-      date: "November 30, 2024",
-      readTime: "6 min read",
-      excerpt: "Event photography is about being in the right place at the right time while maintaining artistic integrity. Whether it's a corporate event, wedding, or cultural celebration, the key is to blend documentary style with creative vision. I'll share my approach to event coverage, including equipment choices, positioning strategies, and how to capture authentic moments without being intrusive. The goal is to tell the complete story of an event through a series of carefully curated images.",
-      tags: ["Events", "Documentary", "Weddings", "Corporate"],
-      category: "events"
-    },
-    {
-      id: 5,
-      title: "Portrait Photography: Connecting with Your Subject",
-      date: "November 25, 2024",
-      readTime: "9 min read",
-      excerpt: "Great portrait photography goes beyond technical perfection - it's about capturing the essence of a person. This requires building trust, creating a comfortable environment, and understanding how to direct subjects naturally. I'll share my approach to portrait sessions, including pre-session consultations, lighting setups for different face shapes, and techniques for putting subjects at ease. The most successful portraits often come from genuine moments of connection rather than forced poses.",
-      tags: ["Portraits", "Lighting", "Psychology", "Connection"],
-      category: "portraits"
-    },
-    {
-      id: 6,
-      title: "Post-Processing Workflow: From Raw to Final",
-      date: "November 20, 2024",
-      readTime: "15 min read",
-      excerpt: "Post-processing is where the magic happens in digital photography. It's not about fixing bad photos, but rather enhancing good ones to reach their full potential. I'll walk through my complete workflow from importing raw files to final export, including color grading, retouching techniques, and how to develop a consistent style. We'll cover both Lightroom and Photoshop workflows, with tips for efficient batch processing and maintaining quality across large projects.",
-      tags: ["Post-Processing", "Lightroom", "Photoshop", "Workflow"],
-      category: "technique"
-    }
-  ];
+  // Load blog posts from service
+  const [blogPosts, setBlogPosts] = useState<BlogPostType[]>([]);
 
-  // Categories for filtering
-  const categories = [
-    { id: 'all', name: 'All Posts', count: blogPosts.length },
-    { id: 'street', name: 'Street Photography', count: blogPosts.filter(post => post.category === 'street').length },
-    { id: 'fashion', name: 'Fashion', count: blogPosts.filter(post => post.category === 'fashion').length },
-    { id: 'technique', name: 'Technique', count: blogPosts.filter(post => post.category === 'technique').length },
-    { id: 'events', name: 'Events', count: blogPosts.filter(post => post.category === 'events').length },
-    { id: 'portraits', name: 'Portraits', count: blogPosts.filter(post => post.category === 'portraits').length }
-  ];
+  useEffect(() => {
+    // Load posts from blog service
+    const posts = blogService.getAllPosts();
+    setBlogPosts(posts);
+  }, []);
+
+  // Categories for filtering - now dynamic from blog service
+  const categories = blogService.getCategories();
 
   // Filter and search functionality
   const filteredPosts = blogPosts.filter(post => {
