@@ -13,7 +13,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    font-family: 'Turret Road', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
       sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -23,22 +23,23 @@ const GlobalStyles = createGlobalStyle`
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-weight: 600;
+    font-family: 'Bitcount Grid Single', monospace;
+    font-weight: normal;
     line-height: 1.2;
     margin-bottom: 1rem;
   }
 
   h1 {
-    font-size: 3.5rem;
-    font-weight: 700;
+    font-size: 4.25rem;
+    font-weight: normal;
   }
 
   h2 {
-    font-size: 2.5rem;
+    font-size: 3.25rem;
   }
 
   h3 {
-    font-size: 2rem;
+    font-size: 2.75rem;
   }
 
   p {

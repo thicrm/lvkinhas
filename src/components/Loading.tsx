@@ -32,10 +32,10 @@ const LoadingContent = styled.div`
 `;
 
 const LoadingTitle = styled.h1`
-  font-size: 3rem;
+  font-size: 4rem;
   margin-bottom: 2rem;
   color: white;
-  font-family: 'kenpixel', 'Press Start 2P', 'VT323', 'Share Tech Mono', 'Orbitron', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Bitcount Grid Single', monospace;
   text-shadow: 
     0 0 10px rgba(255, 255, 255, 0.6),
     0 0 20px rgba(255, 255, 255, 0.4),
@@ -51,12 +51,7 @@ const LoadingSubtitle = styled.p`
   color: #ccc;
   margin-bottom: 3rem;
   animation: ${pulse} 2s ease-in-out infinite;
-  font-family: "Handjet", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 300;
-  font-variation-settings:
-    "ELGR" 1,
-    "ELSH" 2;
+  font-family: "Turret Road", sans-serif;
 `;
 
 const LoadingBar = styled.div`

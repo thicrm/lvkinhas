@@ -96,11 +96,11 @@ const SectionTitle = styled.h1`
   text-align: center;
   margin-bottom: 1rem;
   color: white;
-  font-size: 2.5rem;
+  font-size: 4rem;
   font-weight: 700;
   transition: all 0.4s ease;
   cursor: pointer;
-  font-family: 'kenpixel', 'Press Start 2P', 'VT323', 'Share Tech Mono', 'Orbitron', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Bitcount Grid Single', monospace;
   
   &:hover {
     transform: scale(1.03);
@@ -119,7 +119,7 @@ const SectionSubtitle = styled.p`
   font-size: 1.2rem;
   transition: all 0.3s ease;
   cursor: pointer;
-  font-family: "Handjet", sans-serif;
+  font-family: "Turret Road", sans-serif;
   font-optical-sizing: auto;
   font-weight: 200;
   font-variation-settings:
@@ -152,9 +152,10 @@ const ContactForm = styled.form`
 const FormTitle = styled.h2`
   margin-bottom: 2rem;
   color: white;
+  font-size: 2.5rem;
   transition: all 0.3s ease;
   cursor: pointer;
-  font-family: 'kenpixel', 'Press Start 2P', 'VT323', 'Share Tech Mono', 'Orbitron', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Bitcount Grid Single', monospace;
   
   &:hover {
     transform: scale(1.02);
@@ -175,7 +176,7 @@ const Label = styled.label`
   margin-bottom: 0.5rem;
   color: white;
   font-weight: 500;
-  font-family: "Handjet", sans-serif;
+  font-family: "Turret Road", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-variation-settings:
@@ -223,7 +224,7 @@ const SubmitButton = styled.button`
   border-radius: 10px;
   font-size: 1.1rem;
   font-weight: 600;
-  font-family: "Handjet", sans-serif;
+  font-family: "Turret Road", sans-serif;
   font-optical-sizing: auto;
   font-weight: 500;
   font-variation-settings:
@@ -284,14 +285,10 @@ const InfoIcon = styled.div`
 const InfoTitle = styled.h3`
   margin-bottom: 1rem;
   color: white;
+  font-size: 2.5rem;
   transition: all 0.3s ease;
   cursor: pointer;
-  font-family: "Handjet", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 500;
-  font-variation-settings:
-    "ELGR" 1,
-    "ELSH" 2;
+  font-family: 'Bitcount Grid Single', monospace;
   
   &:hover {
     transform: scale(1.05);
@@ -306,7 +303,7 @@ const InfoTitle = styled.h3`
 const InfoText = styled.p`
   color: white;
   line-height: 1.6;
-  font-family: "Handjet", sans-serif;
+  font-family: "Turret Road", sans-serif;
   font-optical-sizing: auto;
   font-weight: 300;
   font-variation-settings:

@@ -208,7 +208,7 @@ const MessageBoardTitle = styled.h3<{ theme?: string }>`
   font-size: 1.2rem;
   margin: 0 0 1rem 0;
   text-align: center;
-  font-family: 'kenpixel', 'Press Start 2P', 'VT323', 'Share Tech Mono', 'Orbitron', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Bitcount Grid Single', monospace;
 `;
 
 const MessageForm = styled.form`
@@ -360,7 +360,7 @@ const MessageUsername = styled.span<{ theme?: string }>`
   color: var(--highlight-color, #0080ff);
   font-weight: 600;
   font-size: 0.9rem;
-  font-family: "Handjet", sans-serif;
+  font-family: "Turret Road", sans-serif;
   font-optical-sizing: auto;
   font-weight: 500;
   font-variation-settings:
@@ -371,7 +371,7 @@ const MessageUsername = styled.span<{ theme?: string }>`
 const MessageTime = styled.span<{ theme?: string }>`
   color: ${props => props.theme === 'white' ? 'rgba(0, 0, 0, 0.6)' : 'rgba(255, 255, 255, 0.6)'};
   font-size: 0.8rem;
-  font-family: "Handjet", sans-serif;
+  font-family: "Turret Road", sans-serif;
   font-optical-sizing: auto;
   font-weight: 300;
   font-variation-settings:
@@ -383,7 +383,7 @@ const MessageContent = styled.p<{ theme?: string }>`
   color: ${props => props.theme === 'white' ? 'black' : 'white'};
   margin: 0;
   font-size: 0.9rem;
-  font-family: "Handjet", sans-serif;
+  font-family: "Turret Road", sans-serif;
   font-optical-sizing: auto;
   font-weight: 300;
   font-variation-settings:
@@ -455,7 +455,7 @@ const BlogSubtitle = styled(motion.p)<{ theme?: string }>`
   font-size: 1.3rem;
   color: ${props => props.theme === 'white' ? 'black' : 'white'};
   text-shadow: ${props => props.theme === 'white' ? '0 0 8px rgba(0, 0, 0, 0.6)' : '0 0 8px rgba(255, 255, 255, 0.6)'};
-  font-family: "Handjet", sans-serif;
+  font-family: "Turret Road", sans-serif;
   font-optical-sizing: auto;
   font-weight: 200;
   font-variation-settings:
@@ -481,7 +481,7 @@ const SearchInput = styled.input<{ theme?: string }>`
   color: ${props => props.theme === 'white' ? 'black' : 'white'};
   font-size: 1.1rem;
   backdrop-filter: blur(10px);
-  font-family: "Handjet", sans-serif;
+  font-family: "Turret Road", sans-serif;
   font-optical-sizing: auto;
   font-weight: 300;
   font-variation-settings:
@@ -524,7 +524,7 @@ const FilterTag = styled.button<{ active: boolean; theme?: string }>`
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.9rem;
-  font-family: "Handjet", sans-serif;
+  font-family: "Turret Road", sans-serif;
   font-optical-sizing: auto;
   font-weight: 300;
   font-variation-settings:
@@ -604,12 +604,12 @@ const PostHeader = styled.div`
 `;
 
 const PostTitle = styled.h2`
-  font-size: 2.2rem;
+  font-size: 3.7rem;
   color: #0080ff;
   margin-bottom: 1rem;
   font-weight: 600;
   text-shadow: 0 0 8px rgba(0, 128, 255, 0.6);
-  font-family: 'kenpixel', 'Press Start 2P', 'VT323', 'Share Tech Mono', 'Orbitron', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Bitcount Grid Single', monospace;
   line-height: 1.2;
   flex: 1;
   min-width: 300px;
@@ -629,7 +629,7 @@ const PostDate = styled.p`
   color: #00bfff;
   margin-bottom: 0.5rem;
   opacity: 0.8;
-  font-family: "Handjet", sans-serif;
+  font-family: "Turret Road", sans-serif;
   font-optical-sizing: auto;
   font-weight: 300;
   font-variation-settings:
@@ -642,7 +642,7 @@ const PostDate = styled.p`
 const PostReadTime = styled.p`
   color: #00bfff;
   opacity: 0.7;
-  font-family: "Handjet", sans-serif;
+  font-family: "Turret Road", sans-serif;
   font-optical-sizing: auto;
   font-weight: 300;
   font-variation-settings:
@@ -654,7 +654,7 @@ const PostContent = styled.div<{ theme?: string }>`
   color: ${props => props.theme === 'white' ? 'black' : 'white'};
   line-height: 1.8;
   margin-bottom: 2rem;
-  font-family: "Handjet", sans-serif;
+  font-family: "Turret Road", sans-serif;
   font-optical-sizing: auto;
   font-weight: 300;
   font-variation-settings:
@@ -681,7 +681,7 @@ const PostTag = styled(motion.span)<{ theme?: string }>`
   font-size: 0.8rem;
   font-weight: 500;
   display: inline-block;
-  font-family: "Handjet", sans-serif;
+  font-family: "Turret Road", sans-serif;
   font-optical-sizing: auto;
   font-weight: 300;
   font-variation-settings:

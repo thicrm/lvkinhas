@@ -22,8 +22,8 @@ const TitleContainer = styled.div`
 `;
 
 const Text3D = styled.div`
-  font-family: 'Comic Sans MS', cursive, sans-serif;
-  font-size: 2.5rem;
+  font-family: 'Bitcount Grid Single', monospace;
+  font-size: 3.5rem;
   font-weight: bold;
   color: #ffff00;
   text-shadow: 

@@ -4,17 +4,18 @@ import { motion } from 'framer-motion';
 import Loading from './Loading';
 
 const AboutSection = styled.section`
-  padding: 8rem 0 5rem 0;
+  padding: 8rem 0 0 0;
   background: #000000;
   position: relative;
   overflow: hidden;
+  min-height: 100vh;
   
   @media (max-width: 768px) {
-    padding: 6rem 0 4rem 0;
+    padding: 6rem 0 0 0;
   }
   
   @media (max-width: 480px) {
-    padding: 5rem 0 3rem 0;
+    padding: 5rem 0 0 0;
   }
 `;
 
@@ -34,6 +35,8 @@ const AboutBackgroundVideo = styled.div`
     position: absolute;
     top: 0;
     left: 0;
+    min-width: 100%;
+    min-height: 100%;
   }
   
   /* Removed the gray overlay that was causing the ugly background */
@@ -80,9 +83,17 @@ const SoundToggleButton = styled.button`
 const Container = styled.div`
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 2rem 5rem 2rem;
   position: relative;
   z-index: 2;
+  
+  @media (max-width: 768px) {
+    padding: 0 2rem 4rem 2rem;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0 2rem 3rem 2rem;
+  }
 `;
 
 const SectionTitle = styled.h1`
@@ -123,7 +134,7 @@ const SectionSubtitle = styled.p`
   color: white;
   margin-bottom: 4rem;
   font-size: 1.2rem;
-  font-family: "Handjet", sans-serif;
+  font-family: "Turret Road", sans-serif;
   font-optical-sizing: auto;
   font-weight: 200;
   font-variation-settings:
@@ -195,7 +206,7 @@ const AboutText = styled(motion.p)`
   color: white;
   margin-bottom: 2rem;
   position: relative;
-  font-family: "Handjet", sans-serif;
+  font-family: "Turret Road", sans-serif;
   font-optical-sizing: auto;
   font-weight: 300;
   font-variation-settings:
@@ -276,7 +287,7 @@ const SkillName = styled.h3`
   position: relative;
   z-index: 2;
   text-shadow: 0 1px 2px rgba(0,0,0,0.1);
-  font-family: "Handjet", sans-serif;
+  font-family: "Turret Road", sans-serif;
   font-optical-sizing: auto;
   font-weight: 500;
   font-variation-settings:
@@ -291,7 +302,7 @@ const SkillDescription = styled.p`
   z-index: 2;
   margin-bottom: 1rem;
   font-size: 0.85rem;
-  font-family: "Handjet", sans-serif;
+  font-family: "Turret Road", sans-serif;
   font-optical-sizing: auto;
   font-weight: 300;
   font-variation-settings:
@@ -628,7 +639,7 @@ const About: React.FC = () => {
       {/* Preload video for faster loading */}
       <link 
         rel="preload" 
-        href="https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/Hexen_%20Beyond%20Heretic%20(Fighter)%20-%2002%20Seven%20Portals%201%20-%20No%20Commentary.mp4" 
+        href="https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/Hexen%20(mage)%20-%20Gameplay%20scenes%20and%20moments%20-%20BAZOOKA%20TV%20(720p%2C%20h264).mp4" 
         as="video" 
         type="video/mp4"
       />
@@ -637,7 +648,7 @@ const About: React.FC = () => {
               <AboutBackgroundVideo>
           <video
             ref={videoRef}
-            src="https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/Hexen_%20Beyond%20Heretic%20(Fighter)%20-%2002%20Seven%20Portals%201%20-%20No%20Commentary.mp4"
+            src="https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/Hexen%20(mage)%20-%20Gameplay%20scenes%20and%20moments%20-%20BAZOOKA%20TV%20(720p%2C%20h264).mp4"
             autoPlay
             muted={isMuted}
             loop

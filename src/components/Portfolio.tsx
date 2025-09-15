@@ -35,7 +35,7 @@ const SectionSubtitle = styled.p`
   color: #666;
   margin-bottom: 3rem;
   font-size: 1.2rem;
-  font-family: "Handjet", sans-serif;
+  font-family: "Turret Road", sans-serif;
   font-optical-sizing: auto;
   font-weight: 200;
   font-variation-settings:

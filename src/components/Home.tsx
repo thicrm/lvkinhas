@@ -33,8 +33,8 @@ const HeroContent = styled.div`
 `;
 
 const HeroTitle = styled(motion.h1)`
-  font-size: 4rem;
-  font-family: 'kenpixel', 'Press Start 2P', 'VT323', 'Share Tech Mono', 'Orbitron', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-size: 5.5rem;
+  font-family: 'Bitcount Grid Single', monospace;
   font-weight: 700;
   margin-bottom: 1.5rem;
   text-shadow: 
@@ -87,10 +87,7 @@ const HeroSubtitle = styled(motion.p)`
   filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.2));
   transition: all 0.3s ease;
   cursor: pointer;
-  font-family: "Handjet", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 500;
-  font-style: normal;
+  font-family: "Turret Road", sans-serif;
   font-variation-settings:
     "ELGR" 1,
     "ELSH" 2;
@@ -195,12 +192,7 @@ const HeroButton = styled(Link)`
   border-radius: 8px;
   font-weight: 700;
   font-size: 1.1rem;
-  font-family: "Handjet", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 500;
-  font-variation-settings:
-    "ELGR" 1,
-    "ELSH" 2;
+  font-family: "Turret Road", sans-serif;
   text-transform: uppercase;
   letter-spacing: 2px;
   transition: all 0.3s ease;
@@ -264,9 +256,9 @@ const SectionTitle = styled(motion.h2)`
   text-align: center;
   margin-bottom: 3rem;
   color: white;
-  font-size: 2.5rem;
+  font-size: 4rem;
   font-weight: 700;
-  font-family: 'kenpixel', 'Press Start 2P', 'VT323', 'Share Tech Mono', 'Orbitron', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Bitcount Grid Single', monospace;
   text-transform: uppercase;
   letter-spacing: 3px;
   text-shadow: 
@@ -389,6 +381,7 @@ const CardButton = styled(Link)`
   border: 2px solid rgba(135, 206, 235, 0.5);
   border-radius: 6px;
   font-weight: 600;
+  font-family: "Turret Road", sans-serif;
   text-transform: uppercase;
   letter-spacing: 1px;
   transition: all 0.3s ease;

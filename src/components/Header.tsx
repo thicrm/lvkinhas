@@ -33,9 +33,9 @@ const Nav = styled.nav`
 `;
 
 const Logo = styled(Link)<{ isAboutPage: boolean; isContactPage: boolean; isBlogPage: boolean }>`
-  font-size: 1.8rem;
+  font-size: 2.8rem;
   font-weight: 700;
-  font-family: 'kenpixel', 'Press Start 2P', 'VT323', 'Share Tech Mono', 'Orbitron', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Bitcount Grid Single', monospace;
   color: ${props => {
     if (props.isBlogPage) {
       return 'var(--header-text-color, white)';
@@ -80,11 +80,10 @@ const NavLink = styled(Link)<{ active: boolean; isAboutPage: boolean; isContactP
     }
     return (props.isAboutPage || props.isContactPage) ? 'white' : (props.active ? '#333' : '#333');
   }};
-  font-weight: ${props => props.active ? '600' : '400'};
+  font-weight: ${props => props.active ? '800' : '700'};
   position: relative;
-  font-family: "Handjet", sans-serif;
+  font-family: "Doto", sans-serif;
   font-optical-sizing: auto;
-  font-weight: 300;
   font-variation-settings:
     "ELGR" 1,
     "ELSH" 2;
@@ -120,6 +119,15 @@ const NavLink = styled(Link)<{ active: boolean; isAboutPage: boolean; isContactP
     }};
   }
   
+  &:hover {
+    text-shadow: ${props => {
+      if (props.isBlogPage) {
+        return '0 0 15px rgba(255, 255, 255, 1), 0 0 30px rgba(255, 255, 255, 0.8), 0 0 45px rgba(255, 255, 255, 0.6)';
+      }
+      return (props.isAboutPage || props.isContactPage) ? '0 0 15px rgba(255, 255, 255, 1), 0 0 30px rgba(255, 255, 255, 0.8), 0 0 45px rgba(255, 255, 255, 0.6)' : '0 0 15px rgba(0, 0, 0, 1), 0 0 30px rgba(0, 0, 0, 0.8), 0 0 45px rgba(0, 0, 0, 0.6)';
+    }};
+  }
+  
   &:hover::after {
     width: 100%;
     background: ${props => {
@@ -130,9 +138,9 @@ const NavLink = styled(Link)<{ active: boolean; isAboutPage: boolean; isContactP
     }};
     box-shadow: ${props => {
       if (props.isBlogPage) {
-        return 'none';
+        return '0 0 15px rgba(255, 255, 255, 1), 0 0 30px rgba(255, 255, 255, 0.8), 0 0 45px rgba(255, 255, 255, 0.6)';
       }
-      return (props.isAboutPage || props.isContactPage) ? '0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6)' : 'none';
+      return (props.isAboutPage || props.isContactPage) ? '0 0 15px rgba(255, 255, 255, 1), 0 0 30px rgba(255, 255, 255, 0.8), 0 0 45px rgba(255, 255, 255, 0.6)' : '0 0 15px rgba(0, 0, 0, 1), 0 0 30px rgba(0, 0, 0, 0.8), 0 0 45px rgba(0, 0, 0, 0.6)';
     }};
   }
 `;
@@ -190,18 +198,17 @@ const MobileMenu = styled(motion.div)`
 const MobileNavLink = styled(Link)`
   font-size: 2rem;
   color: #333;
-  font-weight: 500;
+  font-weight: 800;
   transition: all 0.3s ease;
-  font-family: "Handjet", sans-serif;
+  font-family: "Doto", sans-serif;
   font-optical-sizing: auto;
-  font-weight: 300;
   font-variation-settings:
     "ELGR" 1,
     "ELSH" 2;
   
   &:hover {
     color: white;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6);
+    text-shadow: 0 0 15px rgba(255, 255, 255, 1), 0 0 30px rgba(255, 255, 255, 0.8), 0 0 45px rgba(255, 255, 255, 0.6);
     transform: scale(1.05);
   }
   

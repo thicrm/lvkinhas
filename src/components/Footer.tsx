@@ -27,7 +27,7 @@ const FooterTitle = styled.h3`
   margin-bottom: 1rem;
   color: #fff;
   font-size: 1.2rem;
-  font-family: "Handjet", sans-serif;
+  font-family: "Turret Road", sans-serif;
   font-optical-sizing: auto;
   font-weight: 500;
   font-variation-settings:
@@ -39,7 +39,7 @@ const FooterText = styled.p`
   color: #ccc;
   line-height: 1.6;
   margin-bottom: 1rem;
-  font-family: "Handjet", sans-serif;
+  font-family: "Turret Road", sans-serif;
   font-optical-sizing: auto;
   font-weight: 300;
   font-variation-settings:
@@ -56,8 +56,8 @@ const FooterLinks = styled.div`
 const FooterLink = styled(Link)`
   color: #ccc;
   text-decoration: none;
-  transition: color 0.3s ease;
-  font-family: "Handjet", sans-serif;
+  transition: all 0.3s ease;
+  font-family: "Turret Road", sans-serif;
   font-optical-sizing: auto;
   font-weight: 300;
   font-variation-settings:
@@ -66,7 +66,7 @@ const FooterLink = styled(Link)`
   
   &:hover {
     color: white;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6);
+    transform: translateY(-1px);
   }
 `;
 
@@ -90,9 +90,7 @@ const SocialLink = styled.a`
   
   &:hover {
     transform: translateY(-2px) scale(1.1);
-    text-shadow: 
-      0 0 8px rgba(255, 255, 255, 0.6), 
-      0 0 16px rgba(255, 255, 255, 0.4);
+    color: #fff;
   }
 `;
 
@@ -104,7 +102,7 @@ const FooterBottom = styled.div`
 
 const Copyright = styled.p`
   margin-bottom: 1rem;
-  font-family: "Handjet", sans-serif;
+  font-family: "Turret Road", sans-serif;
   font-optical-sizing: auto;
   font-weight: 300;
   font-variation-settings:
@@ -122,8 +120,8 @@ const FooterBottomLinks = styled.div`
 const FooterBottomLink = styled(Link)`
   color: #ccc;
   text-decoration: none;
-  transition: color 0.3s ease;
-  font-family: "Handjet", sans-serif;
+  transition: all 0.3s ease;
+  font-family: "Turret Road", sans-serif;
   font-optical-sizing: auto;
   font-weight: 300;
   font-variation-settings:
@@ -132,7 +130,7 @@ const FooterBottomLink = styled(Link)`
   
   &:hover {
     color: white;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.6);
+    transform: translateY(-1px);
   }
 `;
 
@@ -158,10 +156,10 @@ const Footer: React.FC = () => {
           <FooterSection>
             <FooterTitle className="footer-text">Quick Links</FooterTitle>
             <FooterLinks>
-              <FooterLink className="nav-link" to="/">Home</FooterLink>
-              <FooterLink className="nav-link" to="/portfolio">Portfolio</FooterLink>
-              <FooterLink className="nav-link" to="/about">About</FooterLink>
-              <FooterLink className="nav-link" to="/contact">Contact</FooterLink>
+              <FooterLink to="/">Home</FooterLink>
+              <FooterLink to="/portfolio">Portfolio</FooterLink>
+              <FooterLink to="/about">About</FooterLink>
+              <FooterLink to="/contact">Contact</FooterLink>
             </FooterLinks>
           </FooterSection>
 
@@ -183,9 +181,9 @@ const Footer: React.FC = () => {
             Website by Thiago Carmo.
           </Copyright>
           <FooterBottomLinks>
-            <FooterBottomLink className="nav-link" to="/privacy">Privacy Policy</FooterBottomLink>
-            <FooterBottomLink className="nav-link" to="/terms">Terms of Service</FooterBottomLink>
-            <FooterBottomLink className="nav-link" to="/sitemap">Sitemap</FooterBottomLink>
+            <FooterBottomLink to="/privacy">Privacy Policy</FooterBottomLink>
+            <FooterBottomLink to="/terms">Terms of Service</FooterBottomLink>
+            <FooterBottomLink to="/sitemap">Sitemap</FooterBottomLink>
           </FooterBottomLinks>
         </FooterBottom>
       </FooterContent>
