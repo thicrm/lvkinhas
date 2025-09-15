@@ -128,3 +128,4 @@ For issues or questions regarding this release:
 ---
 
 **Checkpoint Created**: This version represents a stable checkpoint for the blog post creator tool with full image upload functionality.
+
