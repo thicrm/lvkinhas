@@ -41,10 +41,11 @@ const HeroTitle = styled(motion.h1)`
     0 0 8px rgba(255, 255, 255, 0.6), 
     0 0 16px rgba(255, 255, 255, 0.4), 
     0 0 24px rgba(255, 255, 255, 0.3);
-  transition: all 0.4s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   animation: pulseGlow 3s ease-in-out infinite alternate;
   transform-origin: center;
+  will-change: transform, text-shadow;
   
   &:hover {
     transform: scale(1.03) !important;
@@ -195,11 +196,12 @@ const HeroButton = styled(Link)`
   font-family: "Turret Road", sans-serif;
   text-transform: uppercase;
   letter-spacing: 2px;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  will-change: transform, box-shadow, background;
   
   &:hover {
     background: 
@@ -597,26 +599,38 @@ const Home: React.FC = () => {
         <HeroContent>
           <HeroTitle
             className="hero-title"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ 
+              duration: 1.2, 
+              ease: [0.4, 0, 0.2, 1],
+              scale: { duration: 1.0, ease: "easeOut" }
+            }}
           >
             LUCAS CAVALLINI
           </HeroTitle>
           <HeroSubtitle
             className="hero-subtitle"
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ 
+              duration: 1.0, 
+              delay: 0.3,
+              ease: [0.4, 0, 0.2, 1]
+            }}
           >
             <InteractiveWord wordIndex={0}>Texture.</InteractiveWord>
             <InteractiveWord wordIndex={1}>Color.</InteractiveWord>
             <InteractiveWord wordIndex={2}>Movement.</InteractiveWord>
           </HeroSubtitle>
           <HeroButtons
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            transition={{ 
+              duration: 1.0, 
+              delay: 0.6,
+              ease: [0.4, 0, 0.2, 1]
+            }}
           >
             <HeroButton className="button-text" to="/portfolio">View Portfolio</HeroButton>
             <HeroButton className="button-text" to="/contact">Get in Touch</HeroButton>

@@ -27,7 +27,15 @@ const SectionTitle = styled.h1`
   text-align: center;
   margin-bottom: 1rem;
   color: #333;
-  font-family: 'kenpixel', 'Press Start 2P', 'VT323', 'Share Tech Mono', 'Orbitron', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Bitcount Grid Single', monospace;
+  font-size: 4rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+  
+  &:hover {
+    transform: scale(1.02);
+    text-shadow: 0 0 20px rgba(51, 51, 51, 0.3);
+  }
 `;
 
 const SectionSubtitle = styled.p`

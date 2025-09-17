@@ -11,8 +11,9 @@ const HeaderContainer = styled.header<{ scrolled: boolean; isAboutPage: boolean;
   z-index: 1000;
   background: ${props => (props.isAboutPage || props.isContactPage || props.isBlogPage) ? 'transparent' : (props.scrolled ? 'rgba(255, 255, 255, 0.95)' : 'transparent')};
   backdrop-filter: ${props => (props.isAboutPage || props.isContactPage || props.isBlogPage) ? 'none' : (props.scrolled ? 'blur(10px)' : 'none')};
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   padding: 1rem 0;
+  will-change: background, backdrop-filter;
   
   @media (max-width: 768px) {
     padding: 0.8rem 0;
@@ -43,7 +44,8 @@ const Logo = styled(Link)<{ isAboutPage: boolean; isContactPage: boolean; isBlog
     return (props.isAboutPage || props.isContactPage) ? 'white' : '#333';
   }} !important;
   text-decoration: none;
-  transition: all 0.4s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, color;
   
   &:hover {
     color: ${props => {

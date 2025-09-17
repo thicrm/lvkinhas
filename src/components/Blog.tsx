@@ -151,7 +151,13 @@ const ThemeSwitcher = styled.div<{ $isFooterVisible: boolean }>`
   
   @media (max-width: 768px) {
     top: ${props => props.$isFooterVisible ? 'calc(100vh - 960px)' : '100px'};
-    right: 150px;
+    right: 20px;
+    transform: translateX(0);
+  }
+  
+  @media (max-width: 480px) {
+    right: 10px;
+    top: ${props => props.$isFooterVisible ? 'calc(100vh - 960px)' : '80px'};
   }
 `;
 
@@ -422,6 +428,20 @@ const ThemeButton = styled.button<{ active: boolean; themeColor: string }>`
   
   &:active {
     transform: scale(0.95);
+  }
+  
+  @media (max-width: 768px) {
+    width: 35px;
+    height: 35px;
+    min-width: 35px;
+    min-height: 35px;
+  }
+  
+  @media (max-width: 480px) {
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
   }
 `;
 

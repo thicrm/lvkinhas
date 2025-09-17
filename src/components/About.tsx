@@ -201,8 +201,8 @@ const AboutImage = styled.div`
 const AboutContent = styled.div``;
 
 const AboutText = styled(motion.p)`
-  font-size: 1.1rem;
-  line-height: 1.8;
+  font-size: 1.5rem !important;
+  line-height: 1.8 !important;
   color: white;
   margin-bottom: 2rem;
   position: relative;
@@ -711,7 +711,7 @@ const About: React.FC = () => {
             </SkillsSection>
           </PhotoAndSkills>
 
-          <AboutContent>
+          <AboutContent className="AboutContent">
             <AboutText
               className="about-text"
               initial={{ opacity: 0, x: -20 }}
