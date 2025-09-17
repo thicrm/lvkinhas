@@ -411,8 +411,8 @@ const ThemeButton = styled.button<{ active: boolean; themeColor: string }>`
     if (props.themeColor === 'image') return `url(/stars.webp) center/cover`;
     if (props.themeColor === 'image2') return `url(/evangelion.webp) center/cover`;
     if (props.themeColor === 'image3') return `url(/ryu.webp) center/cover`;
-    if (props.themeColor === '#00bfff') return '#000080';
-    if (props.themeColor === '#b366ff') return '#4b0082'; // Darker purple
+    if (props.themeColor === 'image4') return `url(/Moebiushome.jpg) center/cover`;
+    if (props.themeColor === 'image5') return `url(/esteban.jpeg) center/cover`;
     if (props.themeColor === '#00ff41') return '#006400'; // Darker green
     return props.themeColor;
   }};
@@ -695,7 +695,7 @@ const PostTags = styled.div`
 
 const PostTag = styled(motion.span)<{ theme?: string }>`
   background: var(--accent-color);
-  color: ${props => props.theme === 'white' ? 'white' : (props.theme === 'image' || props.theme === 'image2' || props.theme === 'image3' ? 'black' : 'white')};
+  color: ${props => props.theme === 'white' ? 'white' : (props.theme === 'image' || props.theme === 'image2' || props.theme === 'image3' || props.theme === 'image4' || props.theme === 'image5' ? 'black' : 'white')};
   padding: 0.25rem 0.75rem;
   border-radius: 0;
   font-size: 0.8rem;
@@ -757,7 +757,7 @@ interface Message {
 
 const Blog: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [currentTheme, setCurrentTheme] = useState<'image' | 'image2' | 'image3' | 'white' | 'blue' | 'purple' | 'green'>('image');
+  const [currentTheme, setCurrentTheme] = useState<'image' | 'image2' | 'image3' | 'white' | 'image4' | 'image5'>('image');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [visiblePosts, setVisiblePosts] = useState(6);
@@ -913,43 +913,51 @@ const Blog: React.FC = () => {
       searchText: '#000000',
       headerText: '#000000'
     },
-    blue: {
-      primary: '#000080',
-      secondary: '#001122',
-      tertiary: '#000033',
-      quaternary: '#001133',
-      accent: '#00bfff',
-      highlight: '#0080ff',
-      cardBg: 'rgba(0, 20, 80, 0.95)',
-      cardBorder: '#00bfff',
-      cardHover: '#0080ff',
-      overlay: 'rgba(0, 100, 200, 0.1)',
-      overlay2: 'rgba(0, 150, 255, 0.1)',
-      overlay3: 'rgba(0, 200, 255, 0.1)',
-      scanlines: 'rgba(0, 150, 255, 0.1)',
-      backgroundImage: '',
-      pageOverlay: 'rgba(0, 100, 200, 0.1)',
-      pageOverlay2: 'rgba(0, 150, 255, 0.1)',
-      pageOverlay3: 'rgba(0, 200, 255, 0.1)'
+    image4: {
+      primary: '#1a1a1a',
+      secondary: '#2d2d2d',
+      tertiary: '#0f0f0f',
+      quaternary: '#1f1f1f',
+      accent: '#ffffff',
+      highlight: '#f0f0f0',
+      cardBg: 'rgba(0, 0, 0, 0.95)',
+      cardBorder: '#ffffff',
+      cardHover: '#f0f0f0',
+      overlay: 'rgba(255, 255, 255, 0.25)',
+      overlay2: 'rgba(255, 255, 255, 0.35)',
+      overlay3: 'rgba(255, 255, 255, 0.20)',
+      scanlines: 'rgba(255, 255, 255, 0.1)',
+      backgroundImage: '/Moebiushome.jpg',
+      pageOverlay: 'rgba(0, 0, 0, 0)',
+      pageOverlay2: 'rgba(0, 0, 0, 0)',
+      pageOverlay3: 'rgba(0, 0, 0, 0)',
+      backgroundOverlay: 'rgba(80, 80, 80, 0.4)',
+      textColor: '#ffffff',
+      searchText: '#ffffff',
+      headerText: '#ffffff'
     },
-    purple: {
-      primary: '#2d1b69',
-      secondary: '#1a103f',
-      tertiary: '#0f0a1f',
-      quaternary: '#2a1f4a',
-      accent: '#b366ff',
-      highlight: '#9933ff',
-      cardBg: 'rgba(45, 27, 105, 0.95)',
-      cardBorder: '#b366ff',
-      cardHover: '#9933ff',
-      overlay: 'rgba(179, 102, 255, 0.1)',
-      overlay2: 'rgba(153, 51, 255, 0.1)',
-      overlay3: 'rgba(255, 102, 204, 0.1)',
-      scanlines: 'rgba(179, 102, 255, 0.1)',
-      backgroundImage: '',
-      pageOverlay: 'rgba(179, 102, 255, 0.1)',
-      pageOverlay2: 'rgba(153, 51, 255, 0.1)',
-      pageOverlay3: 'rgba(255, 102, 204, 0.1)'
+    image5: {
+      primary: '#1a1a1a',
+      secondary: '#2d2d2d',
+      tertiary: '#0f0f0f',
+      quaternary: '#1f1f1f',
+      accent: '#ffffff',
+      highlight: '#f0f0f0',
+      cardBg: 'rgba(0, 0, 0, 0.95)',
+      cardBorder: '#ffffff',
+      cardHover: '#f0f0f0',
+      overlay: 'rgba(255, 255, 255, 0.25)',
+      overlay2: 'rgba(255, 255, 255, 0.35)',
+      overlay3: 'rgba(255, 255, 255, 0.20)',
+      scanlines: 'rgba(255, 255, 255, 0.1)',
+      backgroundImage: '/esteban.jpeg',
+      pageOverlay: 'rgba(0, 0, 0, 0)',
+      pageOverlay2: 'rgba(0, 0, 0, 0)',
+      pageOverlay3: 'rgba(0, 0, 0, 0)',
+      backgroundOverlay: 'rgba(80, 80, 80, 0.4)',
+      textColor: '#ffffff',
+      searchText: '#ffffff',
+      headerText: '#ffffff'
     },
     green: {
       primary: '#0a2e0a',
@@ -1055,7 +1063,12 @@ const Blog: React.FC = () => {
       style={{
         background: currentTheme === 'image' || currentTheme === 'image2' || currentTheme === 'image3'
           ? `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('${currentColors.backgroundImage}') repeat`
-          : `linear-gradient(135deg, ${currentColors.primary} 0%, ${currentColors.secondary} 25%, ${currentColors.tertiary} 50%, ${currentColors.quaternary} 75%, ${currentColors.primary} 100%)`
+          : currentTheme === 'image4'
+          ? `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('${currentColors.backgroundImage}') repeat`
+          : currentTheme === 'image5'
+          ? `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('${currentColors.backgroundImage}') repeat`
+          : `linear-gradient(135deg, ${currentColors.primary} 0%, ${currentColors.secondary} 25%, ${currentColors.tertiary} 50%, ${currentColors.quaternary} 75%, ${currentColors.primary} 100%)`,
+        backgroundSize: currentTheme === 'image4' ? '600px auto' : currentTheme === 'image5' ? '300px auto' : 'auto'
       }}
     >
       <BackgroundLayers>
@@ -1119,19 +1132,14 @@ const Blog: React.FC = () => {
           onClick={() => setCurrentTheme('white')}
         />
         <ThemeButton 
-          active={currentTheme === 'blue'}
-          themeColor="#00bfff"
-          onClick={() => setCurrentTheme('blue')}
+          active={currentTheme === 'image4'}
+          themeColor="image4"
+          onClick={() => setCurrentTheme('image4')}
         />
         <ThemeButton 
-          active={currentTheme === 'purple'}
-          themeColor="#b366ff"
-          onClick={() => setCurrentTheme('purple')}
-        />
-        <ThemeButton 
-          active={currentTheme === 'green'}
-          themeColor="#00ff41"
-          onClick={() => setCurrentTheme('green')}
+          active={currentTheme === 'image5'}
+          themeColor="image5"
+          onClick={() => setCurrentTheme('image5')}
         />
       </ThemeSwitcher>
 
