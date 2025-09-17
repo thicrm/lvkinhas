@@ -72,16 +72,6 @@ const CloseButton = styled.button`
   }
 `;
 
-const ImageInfo = styled.div`
-  position: absolute;
-  bottom: -40px;
-  left: 0;
-  color: white;
-  font-size: 14px;
-  opacity: 0.8;
-  text-align: center;
-  width: 100%;
-`;
 
 interface ImageLightboxProps {
   isOpen: boolean;
@@ -161,11 +151,6 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
               />
             )}
             
-            {imageTitle && (
-              <ImageInfo>
-                {imageTitle}
-              </ImageInfo>
-            )}
           </LightboxContent>
         </LightboxOverlay>
       )}

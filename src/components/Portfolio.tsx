@@ -126,50 +126,55 @@ const MosaicItem = styled(motion.div)`
 
 // All your portfolio images from R2 bucket
 const portfolioImages = [
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/000029370017-3.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/000029370022.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/DADAFINAL12-1-10.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/mccy.mp4',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/casamodadia2-8.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/000029370021-3.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/DADAFINAL12-1-13.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/DADAFINAL12-1-8.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/DADAFINAL12-14.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/DADAFINAL12-15.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/DADAFINAL12-7.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/P1010010%20(2).jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/PBVERDE-4.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/RET%205.png',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/RETICULADA.png',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/casamodadia2-2.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/casamodadia2-23.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/casamodadia2-40.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/dada-10.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/dada-12.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/dada-14.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/dada-3.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/lifeafterlifefinal-10.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/lifeafterlifefinal-16-2.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/lifeafterlifefinal-18-2.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/lifeafterlifefinal-23.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/lifeafterlifefinal-4.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/lifeafterlifefinal-7.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/lifeafterlifefinal-9.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/maluqyuce-3.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/maluqyuce-4.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/man-in-the-water-full.png',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/metal.png',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/pit-below-full.png',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/rebutestedit2-1.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/rebutestedit2-15.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/rebutestedit2-17.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/rebutestedit2-21.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/rebutestedit2-30.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/rebutestedit2-35.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/untitled%20shoot-007.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/untitled%20shoot-030.jpg',
-  
-  
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/000029370017-3.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/000029370022.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/51.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/000029370021-3.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/casamodadia2-2.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/13.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/15%202.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/19.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/2023-18.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/30.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/33.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/36.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/000029370019.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/55.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/57.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/Copyright%20Lucas%20Cavallini-354.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/DADAFINAL12-1-8.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/MARIAC6-35.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/MARIAC6-43.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/MARIAC6-6.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/RET%205.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/RETICULADA.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/Screenshot%202024-05-02%20154551.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/_MG_8725.jpeg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/agazero2-2.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/casamodadia2-2.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/casamodadia2-23.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/cultura-11.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/dada-12.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/dupla02%20picles-51.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/eq-18.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/eq-6.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/f9.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/files-1-10.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/files-1-12.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/files-3.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/files-4.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/final1-29.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/final1-9.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/fnal-26.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/fnal-42.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/fnal-48.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/fnal-51.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/imagem2.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/img124.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/jr4%20PB-13.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/jr4%20PB-3.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/kenyav2-37.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/kenyav2-42.jpg',
 ];
 
 
@@ -326,7 +331,7 @@ const Portfolio: React.FC = () => {
         </SectionSubtitle>
 
         <PortfolioMosaic>
-          {/* First Row - Perfectly Aligned Grid */}
+          {/* First Row - Simple 3 Column Grid */}
           <div style={{ 
             display: 'grid', 
             gridTemplateColumns: 'repeat(3, 1fr)', 
@@ -372,7 +377,8 @@ const Portfolio: React.FC = () => {
           <div style={{ 
             columnCount: 3, 
             columnGap: '12px', 
-            columnFill: 'balance' 
+            columnFill: 'balance',
+            marginTop: '-10px'
           }}>
             {portfolioImages.slice(3).map((imageUrl, index) => {
               const isVideo = imageUrl.endsWith('.mp4') || imageUrl.endsWith('.mov') || imageUrl.endsWith('.avi');
