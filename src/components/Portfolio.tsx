@@ -130,6 +130,45 @@ const portfolioImages = [
   'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/000029370022.jpg',
   'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/51.png',
   'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/000029370021-3.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/koi%20editadas%20final-17.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/krz2-30.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/krz23.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/lifeafterlifefinal-10-2.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/likao-3.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/lords-4.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/love5final-116.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/love5final-48.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/love5final-60.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/love5final-91.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/love5final-93.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/lucas%20cavallini%20(10).jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/maluqyuce-3.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/man-in-the-water-full.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/matrixattackv2.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/mccy.mp4',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/metal.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/metronomosig-2.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/metronomosig-5.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/old%20monitor1.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/old%20monitor3.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/old%20monitor4.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/pit-below-full.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/raca%20projeto%20ret.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/raca12-205camada.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/seed%20nao%20tratadas%20select-2.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/seed%20nao%20tratadas%20select-27.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/seed%20nao%20tratadas%20select-50.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/seed%20nao%20tratadas%20select-51.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/uc3-3.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/untitled%20shoot-017.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/untitled%20shoot-070.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/untitled%20shoot-101.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/untitled%20shoot-130.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/untitled%20shoot-378e.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/untitled%20shoot-429.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/untitled%20shoot-440.png',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/yeh-6.jpg',
+  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/yrthetr.png',
   'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/casamodadia2-2.jpg',
   'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/13.png',
   'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/15%202.png',
@@ -151,7 +190,6 @@ const portfolioImages = [
   'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/Screenshot%202024-05-02%20154551.png',
   'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/_MG_8725.jpeg',
   'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/agazero2-2.jpg',
-  'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/casamodadia2-2.jpg',
   'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/casamodadia2-23.jpg',
   'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/cultura-11.jpg',
   'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025(atualizado)/dada-12.jpg',
@@ -352,11 +390,18 @@ const Portfolio: React.FC = () => {
                   {isVideo ? (
                     <video
                       src={imageUrl}
-                      controls
-                      autoPlay={true}
+                      autoPlay
                       muted
                       loop
-                    />
+                      preload="auto"
+                      playsInline
+                      controls={false}
+                      style={{ width: '100%', height: 'auto' }}
+                      onLoadedData={() => console.log('Video loaded:', imageUrl)}
+                      onError={() => console.log('Video error:', imageUrl)}
+                    >
+                      Your browser does not support the video tag.
+                    </video>
                   ) : (
                     <img
                       src={imageUrl}
@@ -394,11 +439,18 @@ const Portfolio: React.FC = () => {
                   {isVideo ? (
                     <video
                       src={imageUrl}
-                      controls
-                      autoPlay={true}
+                      autoPlay
                       muted
                       loop
-                    />
+                      preload="auto"
+                      playsInline
+                      controls={false}
+                      style={{ width: '100%', height: 'auto' }}
+                      onLoadedData={() => console.log('Video loaded:', imageUrl)}
+                      onError={() => console.log('Video error:', imageUrl)}
+                    >
+                      Your browser does not support the video tag.
+                    </video>
                   ) : (
                     <img
                       src={imageUrl}
