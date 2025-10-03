@@ -78,7 +78,7 @@ const HeroTitle = styled(motion.h1)`
 `;
 
 const HeroSubtitle = styled(motion.p)`
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   margin-bottom: 2rem;
   opacity: 1;
   color: white;
@@ -96,12 +96,12 @@ const HeroSubtitle = styled(motion.p)`
   text-stroke: 0.5px rgba(255, 255, 255, 0.3);
   
   @media (max-width: 768px) {
-    font-size: 1.2rem;
+    font-size: 1rem;
     margin-bottom: 1.5rem;
   }
   
   @media (max-width: 480px) {
-    font-size: 1rem;
+    font-size: 0.9rem;
     margin-bottom: 1rem;
   }
 `;

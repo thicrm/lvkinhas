@@ -188,12 +188,15 @@ const MobileMenu = styled(motion.div)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
+  gap: 1.5rem;
   z-index: 999;
+  overflow-y: auto;
+  padding: 4rem 2rem 2rem 2rem;
+  min-height: 100vh;
   
   @media (max-width: 480px) {
-    gap: 1.5rem;
-    padding: 2rem;
+    gap: 1.2rem;
+    padding: 3rem 1.5rem 1.5rem 1.5rem;
   }
 `;
 
@@ -207,14 +210,51 @@ const MobileNavLink = styled(Link)`
   font-variation-settings:
     "ELGR" 1,
     "ELSH" 2;
+  text-decoration: none;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  display: block;
+  width: 100%;
+  text-align: center;
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   
   &:hover {
-    color: white;
-    text-shadow: 0 0 15px rgba(255, 255, 255, 1), 0 0 30px rgba(255, 255, 255, 0.8), 0 0 45px rgba(255, 255, 255, 0.6);
+    color: #007bff;
+    background: rgba(0, 123, 255, 0.1);
     transform: scale(1.05);
   }
   
   @media (max-width: 480px) {
+    font-size: 1.6rem;
+    padding: 0.8rem 1.5rem;
+    min-height: 50px;
+  }
+`;
+
+const MobileMenuCloseButton = styled.button`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0.5rem;
+  border-radius: 50%;
+  
+  &:hover {
+    background: rgba(0, 0, 0, 0.1);
+    transform: scale(1.1);
+  }
+  
+  @media (max-width: 480px) {
+    top: 0.8rem;
+    right: 0.8rem;
     font-size: 1.8rem;
   }
 `;
@@ -232,6 +272,19 @@ const Header: React.FC = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [mobileMenuOpen]);
 
   const navItems = [
     { path: '/', label: 'Home' },
@@ -276,13 +329,18 @@ const Header: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
         >
-          {navItems.map((item) => (
+          <MobileMenuCloseButton onClick={() => setMobileMenuOpen(false)}>
+            ✕
+          </MobileMenuCloseButton>
+          {navItems.map((item, index) => (
             <MobileNavLink
               key={item.path}
               to={item.path}
               onClick={() => setMobileMenuOpen(false)}
               className="nav-link"
+              style={{ animationDelay: `${index * 0.1}s` }}
             >
               {item.label}
             </MobileNavLink>
