@@ -263,12 +263,13 @@ const ImageLibraryModal = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.9);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 9999;
   padding: 2rem;
+  backdrop-filter: blur(5px);
 `;
 
 const ImageLibraryContent = styled.div`
@@ -406,6 +407,35 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
     setStoredImages(images);
   }, []);
 
+  // Prevent body scrolling when image library modal is open and handle escape key
+  useEffect(() => {
+    if (showImageLibrary) {
+      document.body.style.overflow = 'hidden';
+      
+      // Handle escape key to close modal
+      const handleEscapeKey = (event: KeyboardEvent) => {
+        if (event.key === 'Escape') {
+          setShowImageLibrary(false);
+        }
+      };
+      
+      document.addEventListener('keydown', handleEscapeKey);
+      
+      // Cleanup function
+      return () => {
+        document.body.style.overflow = 'unset';
+        document.removeEventListener('keydown', handleEscapeKey);
+      };
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    // Cleanup function to restore scrolling when component unmounts
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [showImageLibrary]);
+
   const insertStoredImageIntoContent = (image: any) => {
     const textarea = document.getElementById('content') as HTMLTextAreaElement;
     if (!textarea) return;
@@ -450,34 +480,41 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
       };
 
       // Save to blog service (now async)
+      console.log('Saving post with content:', content);
       const savedPost = await blogService.addPost(postData);
       
       console.log('Blog post saved successfully:', savedPost);
       
       // Show success message
-      setSaveMessage('Post saved successfully! You can continue editing or go back to dashboard.');
+      setSaveMessage('✅ Post saved successfully! Redirecting to dashboard...');
       
-      // Clear success message after 5 seconds
-      setTimeout(() => setSaveMessage(''), 5000);
-      
+      // Call onSave callback to notify parent component
       if (onSave) {
         onSave(savedPost);
       }
       
-      // Don't reset form automatically - let user decide when to start new post
-      // setTitle('');
-      // setContent('');
-      // setExcerpt('');
-      // setCategory('street');
-      // setTags('');
-      // setSelectedImage(null);
-      // setImagePreview(null);
-      // setImageAlt('');
+      // Reset form and redirect after a short delay
+      setTimeout(() => {
+        setTitle('');
+        setContent('');
+        setExcerpt('');
+        setCategory('street');
+        setTags('');
+        setSelectedImage(null);
+        setImagePreview(null);
+        setImageAlt('');
+        setSaveMessage('');
+        
+        // Navigate back to dashboard
+        if (onCancel) {
+          onCancel();
+        }
+      }, 2000);
       
     } catch (error) {
       console.error('Error saving blog post:', error);
-      // Don't use alert as it can cause navigation issues
-      console.error('Error saving blog post. Please try again.');
+      setSaveMessage('❌ Error saving blog post. Please try again.');
+      setTimeout(() => setSaveMessage(''), 5000);
     } finally {
       setIsLoading(false);
     }
@@ -512,7 +549,7 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
     setContent(newContent);
   };
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -533,15 +570,16 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
 
     // Create preview URL
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = async (e) => {
       setImagePreview(e.target?.result as string);
+      
+      // Automatically insert the image into the post content
+      await autoInsertImageIntoContent(file, file.name.split('.')[0]);
     };
     reader.readAsDataURL(file);
   };
 
-  const insertImageIntoContent = async () => {
-    if (!selectedImage || !imagePreview) return;
-
+  const autoInsertImageIntoContent = async (file: File, altText: string) => {
     const textarea = document.getElementById('content') as HTMLTextAreaElement;
     if (!textarea) return;
 
@@ -553,17 +591,20 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
       setIsLoading(true);
       
       // Upload image to file storage first
-      const imageId = await blogService.uploadImage(selectedImage, imageAlt);
+      const imageId = await blogService.uploadImage(file, altText);
       const storedImage = blogService.getImageById(imageId);
       
       if (storedImage) {
         // Create markdown image syntax with the stored image URL
-        const imageMarkdown = `\n\n![${imageAlt}](${storedImage.url})\n\n`;
+        const imageMarkdown = `\n\n![${altText}](${storedImage.url})\n\n`;
+        console.log('Inserting image markdown:', imageMarkdown);
+        console.log('Stored image URL:', storedImage.url);
         
         const newContent = content.substring(0, start) + imageMarkdown + content.substring(end);
         setContent(newContent);
+        console.log('New content after insertion:', newContent);
 
-        // Clear image selection
+        // Clear image selection after successful insertion
         setSelectedImage(null);
         setImagePreview(null);
         setImageAlt('');
@@ -574,8 +615,9 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
           textarea.setSelectionRange(start + imageMarkdown.length, start + imageMarkdown.length);
         }, 100);
         
-        // Show success message without alert (which can cause issues)
-        console.log('Image uploaded and inserted into post content!');
+        // Show success message
+        setSaveMessage('Image uploaded and inserted successfully!');
+        setTimeout(() => setSaveMessage(''), 3000);
         
         // Update stored images list
         const images = blogService.getAllImages();
@@ -586,11 +628,16 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
       }
     } catch (error) {
       console.error('Error uploading and inserting image:', error);
-      // Don't use alert as it can cause navigation issues
-      console.error('Error uploading image. Please try again.');
+      setSaveMessage('Error uploading image. Please try again.');
+      setTimeout(() => setSaveMessage(''), 3000);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const insertImageIntoContent = async () => {
+    if (!selectedImage || !imagePreview) return;
+    await autoInsertImageIntoContent(selectedImage, imageAlt);
   };
 
   const removeSelectedImage = () => {
@@ -699,28 +746,12 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
               required
             />
             
-            {/* Image Preview and Insertion */}
-            {imagePreview && (
+            {/* Image Upload Status */}
+            {isLoading && (
               <ImagePreview>
-                <PreviewImage src={imagePreview} alt="Preview" />
-                <ImageInfo>
-                  {selectedImage?.name} ({(selectedImage?.size || 0 / 1024 / 1024).toFixed(2)} MB)
-                </ImageInfo>
-                <Input
-                  type="text"
-                  value={imageAlt}
-                  onChange={(e) => setImageAlt(e.target.value)}
-                  placeholder="Alt text for the image"
-                  style={{ marginBottom: '1rem', fontSize: '0.9rem' }}
-                />
-                <ImageActions>
-                  <InsertButton onClick={insertImageIntoContent}>
-                    Insert into Post
-                  </InsertButton>
-                  <RemoveButton onClick={removeSelectedImage}>
-                    Remove
-                  </RemoveButton>
-                </ImageActions>
+                <div style={{ color: 'white', textAlign: 'center', padding: '2rem' }}>
+                  <div>Uploading and inserting image...</div>
+                </div>
               </ImagePreview>
             )}
           </FormGroup>
@@ -751,11 +782,28 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
 
       {/* Image Library Modal */}
       {showImageLibrary && (
-        <ImageLibraryModal>
-          <ImageLibraryContent>
+        <ImageLibraryModal 
+          onClick={(e) => {
+            // Close modal when clicking outside the content area
+            if (e.target === e.currentTarget) {
+              setShowImageLibrary(false);
+            }
+          }}
+        >
+          <ImageLibraryContent
+            onClick={(e) => {
+              // Prevent event bubbling to prevent modal from closing when clicking inside content
+              e.stopPropagation();
+            }}
+          >
             <ImageLibraryHeader>
               <ImageLibraryTitle>Select Image from Library</ImageLibraryTitle>
-              <CloseButton onClick={() => setShowImageLibrary(false)}>
+              <CloseButton 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowImageLibrary(false);
+                }}
+              >
                 Close
               </CloseButton>
             </ImageLibraryHeader>
@@ -769,7 +817,10 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
                 {storedImages.map((image) => (
                   <LibraryImageCard 
                     key={image.id} 
-                    onClick={() => insertStoredImageIntoContent(image)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      insertStoredImageIntoContent(image);
+                    }}
                   >
                     <LibraryImagePreview src={image.url} alt={image.alt} />
                     <LibraryImageInfo>

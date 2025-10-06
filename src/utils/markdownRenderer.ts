@@ -39,12 +39,14 @@ export const renderMarkdownAdvanced = (markdown: string): string => {
 
   // Convert markdown images ![alt](url) to HTML img tags with better styling
   html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (match, alt, url) => {
+    console.log('Rendering image markdown:', { match, alt, url: url.substring(0, 100) + '...' });
     return `
       <div style="text-align: center; margin: 2rem 0;">
         <img 
           src="${url}" 
           alt="${alt}" 
           style="max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);" 
+          onerror="console.error('Image failed to load:', this.src.substring(0, 100) + '...')"
         />
         ${alt ? `<p style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; margin-top: 0.5rem; font-style: italic;">${alt}</p>` : ''}
       </div>
