@@ -310,7 +310,7 @@ const ImageManager: React.FC<ImageManagerProps> = ({ onBack }) => {
   const stats = {
     totalImages: images.length,
     totalSize: images.reduce((sum, img) => sum + img.size, 0),
-    imageTypes: [...new Set(images.map(img => img.type))].length
+    imageTypes: Array.from(new Set(images.map(img => img.type))).length
   };
 
   return (

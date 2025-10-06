@@ -287,5 +287,4 @@ class FileStorageService {
 // Export singleton instance
 export const fileStorageService = new FileStorageService();
 
-// Export types
-export type { FileStorageConfig, StoredImage };
+// Types are already exported inline above, no need to re-export
