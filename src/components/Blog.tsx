@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import ThreeJSTitle from './ThreeJSTitle';
 import { blogService, BlogPost as BlogPostType } from '../services/blogService';
+import { renderMarkdownAdvanced } from '../utils/markdownRenderer';
 
 const BlogContainer = styled.div`
   min-height: 100vh;
@@ -987,11 +988,50 @@ const Blog: React.FC = () => {
 
   // Load blog posts from service
   const [blogPosts, setBlogPosts] = useState<BlogPostType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Load posts from blog service
-    const posts = blogService.getAllPosts();
-    setBlogPosts(posts);
+    try {
+      // Load posts from blog service
+      const posts = blogService.getAllPosts();
+      setBlogPosts(posts);
+      setError(null);
+    } catch (err) {
+      console.error('Error loading blog posts:', err);
+      setError('Failed to load blog posts');
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  // Auto-refresh posts when storage changes
+  useEffect(() => {
+    const handleStorageChange = () => {
+      try {
+        const posts = blogService.getAllPosts();
+        setBlogPosts(posts);
+        setError(null);
+      } catch (err) {
+        console.error('Error refreshing blog posts:', err);
+        setError('Failed to refresh blog posts');
+      }
+    };
+
+    // Listen for storage changes
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Also listen for custom events (for same-tab updates)
+    window.addEventListener('blogPostsUpdated', handleStorageChange);
+    
+    // Poll for updates every 5 seconds (for file storage sync)
+    const pollInterval = setInterval(handleStorageChange, 5000);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('blogPostsUpdated', handleStorageChange);
+      clearInterval(pollInterval);
+    };
   }, []);
 
   // Categories for filtering - now dynamic from blog service
@@ -1285,18 +1325,45 @@ const Blog: React.FC = () => {
           </FilterTags>
         </SearchSection>
 
+        {/* Error State */}
+        {error && (
+          <NoResults>
+            <h3>Error Loading Blog</h3>
+            <p>{error}</p>
+            <button onClick={() => window.location.reload()} style={{
+              marginTop: '1rem',
+              padding: '0.8rem 1.5rem',
+              background: 'var(--accent-color)',
+              border: 'none',
+              borderRadius: '8px',
+              color: 'white',
+              cursor: 'pointer'
+            }}>
+              Reload Page
+            </button>
+          </NoResults>
+        )}
+
+        {/* Loading State */}
+        {isLoading && (
+          <NoResults>
+            <h3>Loading Blog Posts...</h3>
+            <p>Please wait while we load the latest content.</p>
+          </NoResults>
+        )}
+
         {/* Blog Posts */}
-        {displayedPosts.length > 0 ? (
-        <BlogPostsList>
+        {!isLoading && !error && displayedPosts.length > 0 ? (
+          <BlogPostsList>
             {displayedPosts.map((post, index) => (
-            <BlogPost
-              key={post.id}
+              <BlogPost
+                key={post.id}
                 theme={currentTheme}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              style={{
-                background: `${currentColors.cardBg}, repeating-linear-gradient(45deg, transparent, transparent 4px, ${currentColors.scanlines} 4px, ${currentColors.scanlines} 8px)`,
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                style={{
+                  background: `${currentColors.cardBg}, repeating-linear-gradient(45deg, transparent, transparent 4px, ${currentColors.scanlines} 4px, ${currentColors.scanlines} 8px)`,
                   borderColor: currentColors.cardBorder,
                   '--highlight-color': currentColors.highlight,
                   '--accent-color': currentColors.accent,
@@ -1307,13 +1374,13 @@ const Blog: React.FC = () => {
                 } as React.CSSProperties}
               >
                 <PostHeader>
-              <PostTitle className="post-title" style={{ color: currentColors.highlight, textShadow: `0 0 8px ${currentColors.highlight}40` }}>
-                {post.title}
-              </PostTitle>
+                  <PostTitle className="post-title" style={{ color: currentColors.highlight, textShadow: `0 0 8px ${currentColors.highlight}40` }}>
+                    {post.title}
+                  </PostTitle>
                   <PostMeta>
-              <PostDate className="post-date" style={{ color: currentColors.accent, borderLeftColor: `${currentColors.accent}40` }}>
-                {post.date}
-              </PostDate>
+                    <PostDate className="post-date" style={{ color: currentColors.accent, borderLeftColor: `${currentColors.accent}40` }}>
+                      {post.date}
+                    </PostDate>
                     <PostReadTime className="post-read-time" style={{ color: currentColors.accent }}>
                       {post.readTime}
                     </PostReadTime>
@@ -1321,38 +1388,38 @@ const Blog: React.FC = () => {
                 </PostHeader>
                 
                 <PostContent className="post-content" theme={currentTheme}>
-                <p>{post.excerpt}</p>
-              </PostContent>
+                  <div dangerouslySetInnerHTML={{ __html: renderMarkdownAdvanced(post.content) }} />
+                </PostContent>
                 
-              <PostTags>
-                {post.tags.map((tag, tagIndex) => (
-                  <PostTag 
-                    key={tagIndex}
-                    className="tag-text"
+                <PostTags>
+                  {post.tags.map((tag, tagIndex) => (
+                    <PostTag 
+                      key={tagIndex}
+                      className="tag-text"
                       theme={currentTheme}
-                    style={{
+                      style={{
                         '--accent-color': currentColors.accent,
                         '--highlight-color': currentColors.highlight,
                         '--overlay-color': currentColors.overlay,
                         '--overlay2-color': currentColors.overlay2,
                       } as React.CSSProperties}
-                  >
-                    {tag}
-                  </PostTag>
-                ))}
-              </PostTags>
-            </BlogPost>
-          ))}
-        </BlogPostsList>
-        ) : (
+                    >
+                      {tag}
+                    </PostTag>
+                  ))}
+                </PostTags>
+              </BlogPost>
+            ))}
+          </BlogPostsList>
+        ) : !isLoading && !error && displayedPosts.length === 0 ? (
           <NoResults>
             <h3>No posts found</h3>
             <p>Try adjusting your search terms or category filter.</p>
           </NoResults>
-        )}
+        ) : null}
 
         {/* Load More Button */}
-        {visiblePosts < filteredPosts.length && (
+        {!isLoading && !error && visiblePosts < filteredPosts.length && (
           <LoadMoreButton
             onClick={loadMore}
             style={{

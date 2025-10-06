@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { blogService, BlogPost } from '../../services/blogService';
@@ -257,6 +257,120 @@ const RemoveButton = styled(SmallButton)`
   }
 `;
 
+const ImageLibraryModal = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 2rem;
+`;
+
+const ImageLibraryContent = styled.div`
+  background: rgba(26, 26, 26, 0.95);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 800px;
+  max-height: 80vh;
+  overflow-y: auto;
+  backdrop-filter: blur(10px);
+`;
+
+const ImageLibraryHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+`;
+
+const ImageLibraryTitle = styled.h3`
+  color: white;
+  font-size: 1.5rem;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
+`;
+
+const CloseButton = styled.button`
+  background: rgba(255, 107, 107, 0.2);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  border-radius: 4px;
+  color: #ff6b6b;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 107, 107, 0.3);
+  }
+`;
+
+const ImageLibraryGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+`;
+
+const LibraryImageCard = styled.div`
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: rgba(0, 191, 255, 0.5);
+    background: rgba(0, 191, 255, 0.1);
+  }
+`;
+
+const LibraryImagePreview = styled.img`
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+`;
+
+const LibraryImageInfo = styled.div`
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.8rem;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
+  text-align: center;
+`;
+
+const SuccessMessage = styled.div`
+  background: rgba(81, 207, 102, 0.2);
+  border: 1px solid rgba(81, 207, 102, 0.4);
+  border-radius: 8px;
+  color: #51cf66;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
+  text-align: center;
+`;
+
 interface TestBlogEditorProps {
   onSave?: (post: any) => void;
   onCancel?: () => void;
@@ -274,6 +388,9 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageAlt, setImageAlt] = useState('');
+  const [showImageLibrary, setShowImageLibrary] = useState(false);
+  const [storedImages, setStoredImages] = useState<any[]>([]);
+  const [saveMessage, setSaveMessage] = useState<string>('');
 
   const categories = [
     { value: 'street', label: 'Street Photography' },
@@ -282,6 +399,35 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
     { value: 'events', label: 'Events' },
     { value: 'portraits', label: 'Portraits' }
   ];
+
+  // Load stored images when component mounts
+  useEffect(() => {
+    const images = blogService.getAllImages();
+    setStoredImages(images);
+  }, []);
+
+  const insertStoredImageIntoContent = (image: any) => {
+    const textarea = document.getElementById('content') as HTMLTextAreaElement;
+    if (!textarea) return;
+
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    
+    // Create markdown image syntax with the stored image URL
+    const imageMarkdown = `\n\n![${image.alt}](${image.url})\n\n`;
+    
+    const newContent = content.substring(0, start) + imageMarkdown + content.substring(end);
+    setContent(newContent);
+
+    // Close image library
+    setShowImageLibrary(false);
+    
+    // Focus back to textarea
+    setTimeout(() => {
+      textarea.focus();
+      textarea.setSelectionRange(start + imageMarkdown.length, start + imageMarkdown.length);
+    }, 100);
+  };
 
   const handleSave = async () => {
     setIsLoading(true);
@@ -299,31 +445,39 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
           month: 'long', 
           day: 'numeric' 
         }),
-        readTime: Math.ceil(content.split(' ').length / 200) + ' min read'
+        readTime: Math.ceil(content.split(' ').length / 200) + ' min read',
+        imageIds: [] // Images are already embedded in content as markdown
       };
 
-      // Save to blog service
-      const savedPost = blogService.addPost(postData);
+      // Save to blog service (now async)
+      const savedPost = await blogService.addPost(postData);
       
       console.log('Blog post saved successfully:', savedPost);
+      
+      // Show success message
+      setSaveMessage('Post saved successfully! You can continue editing or go back to dashboard.');
+      
+      // Clear success message after 5 seconds
+      setTimeout(() => setSaveMessage(''), 5000);
       
       if (onSave) {
         onSave(savedPost);
       }
       
-      // Reset form
-      setTitle('');
-      setContent('');
-      setExcerpt('');
-      setCategory('street');
-      setTags('');
-      setSelectedImage(null);
-      setImagePreview(null);
-      setImageAlt('');
+      // Don't reset form automatically - let user decide when to start new post
+      // setTitle('');
+      // setContent('');
+      // setExcerpt('');
+      // setCategory('street');
+      // setTags('');
+      // setSelectedImage(null);
+      // setImagePreview(null);
+      // setImageAlt('');
       
     } catch (error) {
       console.error('Error saving blog post:', error);
-      alert('Error saving blog post. Please try again.');
+      // Don't use alert as it can cause navigation issues
+      console.error('Error saving blog post. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -385,7 +539,7 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
     reader.readAsDataURL(file);
   };
 
-  const insertImageIntoContent = () => {
+  const insertImageIntoContent = async () => {
     if (!selectedImage || !imagePreview) return;
 
     const textarea = document.getElementById('content') as HTMLTextAreaElement;
@@ -394,22 +548,49 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
     
-    // Create image HTML with alt text
-    const imageHtml = `\n\n![${imageAlt}](${imagePreview})\n\n`;
-    
-    const newContent = content.substring(0, start) + imageHtml + content.substring(end);
-    setContent(newContent);
+    try {
+      // Show loading state
+      setIsLoading(true);
+      
+      // Upload image to file storage first
+      const imageId = await blogService.uploadImage(selectedImage, imageAlt);
+      const storedImage = blogService.getImageById(imageId);
+      
+      if (storedImage) {
+        // Create markdown image syntax with the stored image URL
+        const imageMarkdown = `\n\n![${imageAlt}](${storedImage.url})\n\n`;
+        
+        const newContent = content.substring(0, start) + imageMarkdown + content.substring(end);
+        setContent(newContent);
 
-    // Clear image selection
-    setSelectedImage(null);
-    setImagePreview(null);
-    setImageAlt('');
-    
-    // Focus back to textarea
-    setTimeout(() => {
-      textarea.focus();
-      textarea.setSelectionRange(start + imageHtml.length, start + imageHtml.length);
-    }, 100);
+        // Clear image selection
+        setSelectedImage(null);
+        setImagePreview(null);
+        setImageAlt('');
+        
+        // Focus back to textarea
+        setTimeout(() => {
+          textarea.focus();
+          textarea.setSelectionRange(start + imageMarkdown.length, start + imageMarkdown.length);
+        }, 100);
+        
+        // Show success message without alert (which can cause issues)
+        console.log('Image uploaded and inserted into post content!');
+        
+        // Update stored images list
+        const images = blogService.getAllImages();
+        setStoredImages(images);
+        
+      } else {
+        throw new Error('Failed to retrieve uploaded image');
+      }
+    } catch (error) {
+      console.error('Error uploading and inserting image:', error);
+      // Don't use alert as it can cause navigation issues
+      console.error('Error uploading image. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const removeSelectedImage = () => {
@@ -426,6 +607,8 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
         transition={{ duration: 0.6 }}
       >
         <EditorTitle>Create New Blog Post (Test Editor)</EditorTitle>
+        
+        {saveMessage && <SuccessMessage>{saveMessage}</SuccessMessage>}
         
         <Form>
           <FormGroup>
@@ -496,8 +679,11 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
               <FormatButton onClick={() => insertFormatting('header')}>
                 Header
               </FormatButton>
+              <FormatButton onClick={() => setShowImageLibrary(true)}>
+                🖼️ Image Library
+              </FormatButton>
               <ImageUploadButton>
-                📷 Upload Image
+                📷 Upload New Image
                 <input
                   type="file"
                   accept="image/*"
@@ -547,7 +733,7 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Cancel
+              Back to Dashboard
             </Button>
             <Button
               type="button"
@@ -562,6 +748,41 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
           </ButtonGroup>
         </Form>
       </EditorCard>
+
+      {/* Image Library Modal */}
+      {showImageLibrary && (
+        <ImageLibraryModal>
+          <ImageLibraryContent>
+            <ImageLibraryHeader>
+              <ImageLibraryTitle>Select Image from Library</ImageLibraryTitle>
+              <CloseButton onClick={() => setShowImageLibrary(false)}>
+                Close
+              </CloseButton>
+            </ImageLibraryHeader>
+            
+            {storedImages.length === 0 ? (
+              <div style={{ textAlign: 'center', color: 'rgba(255, 255, 255, 0.6)', padding: '2rem' }}>
+                No images in library. Upload some images first!
+              </div>
+            ) : (
+              <ImageLibraryGrid>
+                {storedImages.map((image) => (
+                  <LibraryImageCard 
+                    key={image.id} 
+                    onClick={() => insertStoredImageIntoContent(image)}
+                  >
+                    <LibraryImagePreview src={image.url} alt={image.alt} />
+                    <LibraryImageInfo>
+                      <div><strong>{image.originalName}</strong></div>
+                      <div>Click to insert</div>
+                    </LibraryImageInfo>
+                  </LibraryImageCard>
+                ))}
+              </ImageLibraryGrid>
+            )}
+          </ImageLibraryContent>
+        </ImageLibraryModal>
+      )}
     </EditorContainer>
   );
 };

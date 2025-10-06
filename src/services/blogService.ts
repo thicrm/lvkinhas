@@ -9,6 +9,7 @@ export interface BlogPost {
   date: string;
   readTime: string;
   images?: string[];
+  imageIds?: string[]; // File storage image IDs
   createdAt?: number;
   updatedAt?: number;
 }
@@ -92,24 +93,51 @@ const DEFAULT_BLOG_POSTS: BlogPost[] = [
 // Storage key for localStorage
 const STORAGE_KEY = 'lvkinhas_blog_posts';
 
+// Import file storage service
+import { fileStorageService } from './fileStorageService';
+
 // Blog service class
 class BlogService {
   private posts: BlogPost[] = [];
+  private fileStorage = fileStorageService;
 
   constructor() {
-    this.loadPosts();
+    // Initialize asynchronously to avoid blocking
+    this.initializeAsync();
   }
 
-  // Load posts from localStorage or use defaults
-  private loadPosts(): void {
+  private async initializeAsync() {
     try {
-      const storedPosts = localStorage.getItem(STORAGE_KEY);
-      if (storedPosts) {
-        this.posts = JSON.parse(storedPosts);
+      await this.loadPosts();
+    } catch (error) {
+      console.error('Error initializing blog service:', error);
+    }
+  }
+
+  // Load posts from file storage or use defaults
+  private async loadPosts(): Promise<void> {
+    try {
+      // Initialize file storage
+      await this.fileStorage.initializeStorage();
+      
+      // Try to load from file storage first
+      const fileStoragePosts = this.fileStorage.getAllPosts();
+      
+      if (fileStoragePosts.length > 0) {
+        this.posts = fileStoragePosts;
+        console.log('Posts loaded from file storage');
       } else {
-        // Initialize with default posts
-        this.posts = [...DEFAULT_BLOG_POSTS];
-        this.savePosts();
+        // Fallback to localStorage
+        const storedPosts = localStorage.getItem(STORAGE_KEY);
+        if (storedPosts) {
+          this.posts = JSON.parse(storedPosts);
+          // Migrate to file storage
+          await this.migrateToFileStorage();
+        } else {
+          // Initialize with default posts
+          this.posts = [...DEFAULT_BLOG_POSTS];
+          await this.migrateToFileStorage();
+        }
       }
     } catch (error) {
       console.error('Error loading blog posts:', error);
@@ -117,17 +145,67 @@ class BlogService {
     }
   }
 
-  // Save posts to localStorage
-  private savePosts(): void {
+  // Save posts to file storage
+  private async savePosts(): Promise<void> {
     try {
+      await this.fileStorage.initializeStorage();
+      
+      // Save each post to file storage
+      for (const post of this.posts) {
+        await this.fileStorage.savePost(post);
+      }
+      
+      // Also keep localStorage backup
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.posts));
+      
+      console.log('Posts saved to file storage');
     } catch (error) {
       console.error('Error saving blog posts:', error);
+      // Fallback to localStorage only
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.posts));
     }
   }
 
-  // Get all posts
+  // Migrate posts from localStorage to file storage
+  private async migrateToFileStorage(): Promise<void> {
+    try {
+      await this.fileStorage.initializeStorage();
+      
+      for (const post of this.posts) {
+        await this.fileStorage.savePost(post);
+      }
+      
+      console.log('Posts migrated to file storage');
+    } catch (error) {
+      console.error('Error migrating posts to file storage:', error);
+    }
+  }
+
+  // Get all posts (with file storage sync)
   getAllPosts(): BlogPost[] {
+    // Sync with file storage
+    try {
+      const fileStoragePosts = this.fileStorage.getAllPosts();
+      if (fileStoragePosts.length > 0) {
+        this.posts = fileStoragePosts;
+      }
+    } catch (error) {
+      console.error('Error syncing with file storage:', error);
+      // Fallback to localStorage if file storage fails
+      try {
+        const storedPosts = localStorage.getItem(STORAGE_KEY);
+        if (storedPosts) {
+          this.posts = JSON.parse(storedPosts);
+        }
+      } catch (localError) {
+        console.error('Error loading from localStorage fallback:', localError);
+        // Ultimate fallback to default posts
+        if (this.posts.length === 0) {
+          this.posts = [...DEFAULT_BLOG_POSTS];
+        }
+      }
+    }
+    
     return [...this.posts].sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
   }
 
@@ -154,22 +232,33 @@ class BlogService {
     );
   }
 
-  // Add new post
-  addPost(postData: Omit<BlogPost, 'id' | 'createdAt' | 'updatedAt'>): BlogPost {
+  // Add new post (with file storage)
+  async addPost(postData: Omit<BlogPost, 'id' | 'createdAt' | 'updatedAt'>): Promise<BlogPost> {
     const newPost: BlogPost = {
       ...postData,
-      id: this.generateId(),
+      id: this.fileStorage.generatePostId(),
       createdAt: Date.now(),
       updatedAt: Date.now()
     };
 
     this.posts.unshift(newPost); // Add to beginning
-    this.savePosts();
+    
+    try {
+      // Save to file storage
+      await this.fileStorage.savePost(newPost);
+      console.log('New post added to file storage');
+      
+      // Dispatch event to notify components
+      window.dispatchEvent(new CustomEvent('blogPostsUpdated'));
+    } catch (error) {
+      console.error('Error saving new post to file storage:', error);
+    }
+    
     return newPost;
   }
 
-  // Update existing post
-  updatePost(id: number, updates: Partial<BlogPost>): BlogPost | null {
+  // Update existing post (with file storage)
+  async updatePost(id: number, updates: Partial<BlogPost>): Promise<BlogPost | null> {
     const postIndex = this.posts.findIndex(post => post.id === id);
     if (postIndex === -1) {
       return null;
@@ -181,19 +270,40 @@ class BlogService {
       updatedAt: Date.now()
     };
 
-    this.savePosts();
+    try {
+      // Save to file storage
+      await this.fileStorage.savePost(this.posts[postIndex]);
+      console.log('Post updated in file storage');
+      
+      // Dispatch event to notify components
+      window.dispatchEvent(new CustomEvent('blogPostsUpdated'));
+    } catch (error) {
+      console.error('Error updating post in file storage:', error);
+    }
+    
     return this.posts[postIndex];
   }
 
-  // Delete post
-  deletePost(id: number): boolean {
+  // Delete post (with file storage)
+  async deletePost(id: number): Promise<boolean> {
     const postIndex = this.posts.findIndex(post => post.id === id);
     if (postIndex === -1) {
       return false;
     }
 
     this.posts.splice(postIndex, 1);
-    this.savePosts();
+    
+    try {
+      // Delete from file storage
+      await this.fileStorage.deletePost(id);
+      console.log('Post deleted from file storage');
+      
+      // Dispatch event to notify components
+      window.dispatchEvent(new CustomEvent('blogPostsUpdated'));
+    } catch (error) {
+      console.error('Error deleting post from file storage:', error);
+    }
+    
     return true;
   }
 
@@ -224,14 +334,74 @@ class BlogService {
     ];
   }
 
-  // Generate unique ID
-  private generateId(): number {
-    const existingIds = this.posts.map(post => post.id);
-    let newId = Date.now();
-    while (existingIds.includes(newId)) {
-      newId++;
+  // Image management methods
+  async uploadImage(file: File, alt: string = ''): Promise<string> {
+    try {
+      const imageRecord = await this.fileStorage.saveImage(file, alt);
+      console.log('Image uploaded to file storage:', imageRecord.id);
+      return imageRecord.id;
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      throw error;
     }
-    return newId;
+  }
+
+  getImageById(imageId: string) {
+    return this.fileStorage.getImageById(imageId);
+  }
+
+  getAllImages() {
+    return this.fileStorage.getAllImages();
+  }
+
+  async deleteImage(imageId: string): Promise<boolean> {
+    try {
+      return await this.fileStorage.deleteImage(imageId);
+    } catch (error) {
+      console.error('Error deleting image:', error);
+      return false;
+    }
+  }
+
+  // Add image to post
+  async addImageToPost(postId: number, imageId: string): Promise<boolean> {
+    try {
+      const post = this.getPostById(postId);
+      if (!post) return false;
+
+      const imageIds = post.imageIds || [];
+      if (!imageIds.includes(imageId)) {
+        imageIds.push(imageId);
+        await this.updatePost(postId, { imageIds });
+        console.log('Image added to post');
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Error adding image to post:', error);
+      return false;
+    }
+  }
+
+  // Remove image from post
+  async removeImageFromPost(postId: number, imageId: string): Promise<boolean> {
+    try {
+      const post = this.getPostById(postId);
+      if (!post) return false;
+
+      const imageIds = post.imageIds || [];
+      const filteredImageIds = imageIds.filter(id => id !== imageId);
+      
+      if (filteredImageIds.length !== imageIds.length) {
+        await this.updatePost(postId, { imageIds: filteredImageIds });
+        console.log('Image removed from post');
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Error removing image from post:', error);
+      return false;
+    }
   }
 
   // Export posts to JSON (for backup)
@@ -267,3 +437,4 @@ export const blogService = new BlogService();
 
 // Export types and default posts for use in components
 export { DEFAULT_BLOG_POSTS };
+

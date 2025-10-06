@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import AdminLogin from './AdminLogin';
 import TestBlogEditor from './TestBlogEditor';
 import ErrorBoundary from './ErrorBoundary';
+import ImageManager from './ImageManager';
 import { blogService } from '../../services/blogService';
 
 const AdminContainer = styled.div`
@@ -181,8 +182,238 @@ const PlaceholderText = styled.div`
   font-size: 1.2rem;
 `;
 
+const ManagePostsContainer = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+`;
+
+const BackButton = styled(motion.button)`
+  padding: 0.8rem 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
+  margin-bottom: 2rem;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  }
+`;
+
+const PostsList = styled.div`
+  display: grid;
+  gap: 1rem;
+`;
+
+const PostCard = styled.div`
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+`;
+
+const PostHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+`;
+
+const PostTitle = styled.h3`
+  color: white;
+  font-size: 1.3rem;
+  margin: 0;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
+`;
+
+const PostActions = styled.div`
+  display: flex;
+  gap: 0.5rem;
+`;
+
+const ActionBtn = styled(motion.button)`
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
+`;
+
+const EditButton = styled(ActionBtn)`
+  background: rgba(0, 150, 255, 0.2);
+  color: #0096ff;
+  border: 1px solid rgba(0, 150, 255, 0.3);
+
+  &:hover {
+    background: rgba(0, 150, 255, 0.3);
+    border-color: rgba(0, 150, 255, 0.5);
+  }
+`;
+
+const DeleteButton = styled(ActionBtn)`
+  background: rgba(255, 107, 107, 0.2);
+  color: #ff6b6b;
+  border: 1px solid rgba(255, 107, 107, 0.3);
+
+  &:hover {
+    background: rgba(255, 107, 107, 0.3);
+    border-color: rgba(255, 107, 107, 0.5);
+  }
+`;
+
+const PostMeta = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
+`;
+
+const PostContent = styled.div`
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
+`;
+
+const ManagePostsView: React.FC<{ onBack: () => void }> = ({ onBack }) => {
+  const [posts, setPosts] = useState<any[]>([]);
+
+  useEffect(() => {
+    const allPosts = blogService.getAllPosts();
+    setPosts(allPosts);
+  }, []);
+
+  const handleDeletePost = async (postId: number) => {
+    if (window.confirm('Are you sure you want to delete this post? This action cannot be undone.')) {
+      try {
+        const success = await blogService.deletePost(postId);
+        if (success) {
+          const updatedPosts = blogService.getAllPosts();
+          setPosts(updatedPosts);
+          alert('Post deleted successfully!');
+        } else {
+          alert('Error deleting post. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error deleting post:', error);
+        alert('Error deleting post. Please try again.');
+      }
+    }
+  };
+
+  const formatDate = (timestamp: number) => {
+    return new Date(timestamp).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  return (
+    <ManagePostsContainer>
+      <BackButton
+        onClick={onBack}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+      >
+        ← Back to Dashboard
+      </BackButton>
+
+      <ContentTitle>Manage Blog Posts ({posts.length} total)</ContentTitle>
+
+      {posts.length === 0 ? (
+        <PlaceholderText>
+          No blog posts found. Create your first post to get started!
+        </PlaceholderText>
+      ) : (
+        <PostsList>
+          {posts.map((post) => (
+            <PostCard key={post.id}>
+              <PostHeader>
+                <PostTitle>{post.title}</PostTitle>
+                <PostActions>
+                  <EditButton
+                    onClick={() => alert('Edit functionality coming soon!')}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    Edit
+                  </EditButton>
+                  <DeleteButton
+                    onClick={() => handleDeletePost(post.id)}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    Delete
+                  </DeleteButton>
+                </PostActions>
+              </PostHeader>
+              
+              <PostMeta>
+                <span>Category: {post.category}</span>
+                <span>Created: {formatDate(post.createdAt || Date.now())}</span>
+                <span>Read Time: {post.readTime}</span>
+              </PostMeta>
+              
+              <PostContent>
+                {post.content ? 
+                  post.content.replace(/<[^>]*>/g, '').substring(0, 200) + '...' : 
+                  'No content preview available'
+                }
+              </PostContent>
+            </PostCard>
+          ))}
+        </PostsList>
+      )}
+    </ManagePostsContainer>
+  );
+};
+
 const AdminDashboard: React.FC = () => {
-  const [currentView, setCurrentView] = useState<'dashboard' | 'create-post'>('dashboard');
+  const [currentView, setCurrentView] = useState<'dashboard' | 'create-post' | 'manage-posts' | 'image-manager'>('dashboard');
   const [stats, setStats] = useState({
     totalPosts: 0,
     categories: 0,
@@ -237,22 +468,28 @@ const AdminDashboard: React.FC = () => {
     setIsAuthenticated(false);
   };
 
-  const handleSavePost = (post: any) => {
+  const handleSavePost = async (post: any) => {
     console.log('Post saved:', post);
     // Post is already saved by the BlogPostEditor
-    // Refresh stats
-    const posts = blogService.getAllPosts();
-    const categories = blogService.getCategories();
-    
-    setStats({
-      totalPosts: posts.length,
-      categories: categories.length - 1,
-      draftPosts: 0,
-      totalViews: stats.totalViews
-    });
-    
-    alert('Blog post saved successfully!');
-    setCurrentView('dashboard');
+    // Refresh stats and posts list
+    try {
+      const posts = blogService.getAllPosts();
+      const categories = blogService.getCategories();
+      
+      setStats({
+        totalPosts: posts.length,
+        categories: categories.length - 1,
+        draftPosts: 0,
+        totalViews: stats.totalViews
+      });
+      
+      console.log('Blog post saved successfully!');
+      // Don't automatically redirect - let user decide when to go back
+      // setCurrentView('dashboard');
+    } catch (error) {
+      console.error('Error refreshing after save:', error);
+      console.error('Blog post saved, but there was an error refreshing the dashboard.');
+    }
   };
 
   const handleCancelPost = () => {
@@ -281,6 +518,26 @@ const AdminDashboard: React.FC = () => {
             onSave={handleSavePost}
             onCancel={handleCancelPost}
           />
+        </AdminContainer>
+      </ErrorBoundary>
+    );
+  }
+
+  if (currentView === 'manage-posts') {
+    return (
+      <ErrorBoundary>
+        <AdminContainer>
+          <DashboardHeader>
+            <DashboardTitle>Manage Blog Posts</DashboardTitle>
+            <LogoutButton
+              onClick={handleLogout}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Logout
+            </LogoutButton>
+          </DashboardHeader>
+          <ManagePostsView onBack={() => setCurrentView('dashboard')} />
         </AdminContainer>
       </ErrorBoundary>
     );
@@ -338,7 +595,7 @@ const AdminDashboard: React.FC = () => {
             <ActionButton
               onClick={() => {
                 console.log('Manage Posts clicked');
-                alert('Manage Posts feature coming soon!');
+                setCurrentView('manage-posts');
               }}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
