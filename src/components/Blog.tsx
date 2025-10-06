@@ -756,6 +756,56 @@ interface Message {
   timestamp: Date;
 }
 
+// Function to render blog post content with proper image display
+const renderBlogPostContent = (content: string): JSX.Element => {
+  // Split content by markdown images
+  const parts = content.split(/(!\[([^\]]*)\]\(([^)]+)\))/g);
+  
+  return (
+    <div>
+      {parts.map((part, index) => {
+        // Check if this part is a markdown image
+        if (part.startsWith('![') && part.endsWith(')')) {
+          const match = part.match(/!\[([^\]]*)\]\(([^)]+)\)/);
+          if (match) {
+            const [, altText, url] = match;
+            return (
+              <img 
+                key={index} 
+                src={url} 
+                alt={altText} 
+                style={{ 
+                  maxWidth: '100%', 
+                  height: 'auto', 
+                  borderRadius: '12px', 
+                  margin: '2rem 0',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+                  display: 'block'
+                }} 
+                onError={(e) => {
+                  console.error('Image failed to load:', url.substring(0, 100) + '...');
+                  e.currentTarget.style.display = 'none';
+                }}
+              />
+            );
+          }
+        }
+        
+        // For non-image parts, render as markdown
+        if (part.trim()) {
+          return (
+            <div 
+              key={index} 
+              dangerouslySetInnerHTML={{ __html: renderMarkdownAdvanced(part) }} 
+            />
+          );
+        }
+        return null;
+      })}
+    </div>
+  );
+};
+
 const Blog: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [currentTheme, setCurrentTheme] = useState<'image' | 'image2' | 'image3' | 'white' | 'image4' | 'image5'>('image');
@@ -1388,7 +1438,7 @@ const Blog: React.FC = () => {
                 </PostHeader>
                 
                 <PostContent className="post-content" theme={currentTheme}>
-                  <div dangerouslySetInnerHTML={{ __html: renderMarkdownAdvanced(post.content) }} />
+                  {renderBlogPostContent(post.content)}
                 </PostContent>
                 
                 <PostTags>

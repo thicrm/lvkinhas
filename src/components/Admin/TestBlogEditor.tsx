@@ -372,6 +372,55 @@ const SuccessMessage = styled.div`
   text-align: center;
 `;
 
+const PreviewContainer = styled.div`
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  max-height: 300px;
+  overflow-y: auto;
+`;
+
+const PreviewTitle = styled.h4`
+  color: white;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  font-family: "Handjet", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-variation-settings:
+    "ELGR" 1,
+    "ELSH" 2;
+`;
+
+const PreviewContent = styled.div`
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1rem 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  p {
+    margin: 1rem 0;
+  }
+  
+  strong {
+    color: #0080ff;
+    font-weight: 600;
+  }
+  
+  em {
+    color: #00bfff;
+    font-style: italic;
+  }
+`;
+
 interface TestBlogEditorProps {
   onSave?: (post: any) => void;
   onCancel?: () => void;
@@ -392,6 +441,65 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
   const [showImageLibrary, setShowImageLibrary] = useState(false);
   const [storedImages, setStoredImages] = useState<any[]>([]);
   const [saveMessage, setSaveMessage] = useState<string>('');
+
+  // Function to convert image placeholders to markdown for saving
+  const convertImagePlaceholdersToMarkdown = (content: string): string => {
+    return content.replace(/\[IMAGE:([^:]+):([^\]]+)\]/g, (match, imageId, altText) => {
+      const image = blogService.getImageById(imageId);
+      if (image) {
+        return `![${altText}](${image.url})`;
+      }
+      return `![${altText}](image-not-found)`;
+    });
+  };
+
+  // Function to render content preview with images
+  const renderContentPreview = (content: string): JSX.Element => {
+    const parts = content.split(/(\[IMAGE:[^:]+:[^\]]+\])/g);
+    
+    return (
+      <PreviewContent>
+        {parts.map((part, index) => {
+          if (part.startsWith('[IMAGE:') && part.endsWith(']')) {
+            const match = part.match(/\[IMAGE:([^:]+):([^\]]+)\]/);
+            if (match) {
+              const [, imageId, altText] = match;
+              const image = blogService.getImageById(imageId);
+              if (image) {
+                return (
+                  <img 
+                    key={index} 
+                    src={image.url} 
+                    alt={altText} 
+                    style={{ 
+                      maxWidth: '100%', 
+                      height: 'auto', 
+                      borderRadius: '8px', 
+                      margin: '1rem 0',
+                      boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
+                    }} 
+                  />
+                );
+              }
+            }
+            return <span key={index} style={{ color: '#ff6b6b' }}>[Image not found]</span>;
+          }
+          
+          // Handle other markdown formatting
+          let formattedPart = part;
+          formattedPart = formattedPart.replace(/\*\*(.*?)\*\*/g, '<strong style="color: #0080ff; font-weight: 600;">$1</strong>');
+          formattedPart = formattedPart.replace(/\*(.*?)\*/g, '<em style="color: #00bfff; font-style: italic;">$1</em>');
+          formattedPart = formattedPart.replace(/^### (.*$)/gm, '<h3 style="color: #00bfff; margin: 1.5rem 0 0.8rem 0; font-size: 1.4rem;">$1</h3>');
+          formattedPart = formattedPart.replace(/^## (.*$)/gm, '<h2 style="color: #0080ff; margin: 2rem 0 1rem 0; font-size: 1.8rem;">$1</h2>');
+          
+          if (formattedPart.trim()) {
+            return <div key={index} dangerouslySetInnerHTML={{ __html: formattedPart }} />;
+          }
+          return null;
+        })}
+      </PreviewContent>
+    );
+  };
 
   const categories = [
     { value: 'street', label: 'Street Photography' },
@@ -443,10 +551,10 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
     
-    // Create markdown image syntax with the stored image URL
-    const imageMarkdown = `\n\n![${image.alt}](${image.url})\n\n`;
+    // Create image placeholder with the stored image ID
+    const imagePlaceholder = `\n\n[IMAGE:${image.id}:${image.alt}]\n\n`;
     
-    const newContent = content.substring(0, start) + imageMarkdown + content.substring(end);
+    const newContent = content.substring(0, start) + imagePlaceholder + content.substring(end);
     setContent(newContent);
 
     // Close image library
@@ -455,7 +563,7 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
     // Focus back to textarea
     setTimeout(() => {
       textarea.focus();
-      textarea.setSelectionRange(start + imageMarkdown.length, start + imageMarkdown.length);
+      textarea.setSelectionRange(start + imagePlaceholder.length, start + imagePlaceholder.length);
     }, 100);
   };
 
@@ -463,10 +571,13 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
     setIsLoading(true);
     
     try {
+      // Convert image placeholders to markdown for saving
+      const markdownContent = convertImagePlaceholdersToMarkdown(content);
+      
       // Prepare post data
       const postData = {
         title,
-        content,
+        content: markdownContent,
         excerpt,
         category: category as BlogPost['category'],
         tags: tags.split(',').map(tag => tag.trim()).filter(tag => tag),
@@ -475,7 +586,7 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
           month: 'long', 
           day: 'numeric' 
         }),
-        readTime: Math.ceil(content.split(' ').length / 200) + ' min read',
+        readTime: Math.ceil(markdownContent.split(' ').length / 200) + ' min read',
         imageIds: [] // Images are already embedded in content as markdown
       };
 
@@ -595,12 +706,12 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
       const storedImage = blogService.getImageById(imageId);
       
       if (storedImage) {
-        // Create markdown image syntax with the stored image URL
-        const imageMarkdown = `\n\n![${altText}](${storedImage.url})\n\n`;
-        console.log('Inserting image markdown:', imageMarkdown);
+        // Insert image using a special placeholder that we'll render as an actual image
+        const imagePlaceholder = `\n\n[IMAGE:${storedImage.id}:${altText}]\n\n`;
+        console.log('Inserting image placeholder:', imagePlaceholder);
         console.log('Stored image URL:', storedImage.url);
         
-        const newContent = content.substring(0, start) + imageMarkdown + content.substring(end);
+        const newContent = content.substring(0, start) + imagePlaceholder + content.substring(end);
         setContent(newContent);
         console.log('New content after insertion:', newContent);
 
@@ -612,7 +723,7 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
         // Focus back to textarea
         setTimeout(() => {
           textarea.focus();
-          textarea.setSelectionRange(start + imageMarkdown.length, start + imageMarkdown.length);
+          textarea.setSelectionRange(start + imagePlaceholder.length, start + imagePlaceholder.length);
         }, 100);
         
         // Show success message
@@ -753,6 +864,14 @@ const TestBlogEditor: React.FC<TestBlogEditorProps> = ({ onSave, onCancel }) => 
                   <div>Uploading and inserting image...</div>
                 </div>
               </ImagePreview>
+            )}
+            
+            {/* Content Preview */}
+            {content && (
+              <PreviewContainer>
+                <PreviewTitle>Preview:</PreviewTitle>
+                {renderContentPreview(content)}
+              </PreviewContainer>
             )}
           </FormGroup>
 
