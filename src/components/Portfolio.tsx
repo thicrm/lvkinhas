@@ -407,6 +407,7 @@ const Portfolio: React.FC = () => {
                       src={imageUrl}
                       alt={`Portfolio image ${index + 1}`}
                       loading="lazy"
+                      decoding="async"
                       onLoad={() => handleImageLoad(index)}
                       onError={() => handleImageError(index)}
                       onClick={() => openLightbox(imageUrl, `Portfolio image ${index + 1}`)}
@@ -456,6 +457,7 @@ const Portfolio: React.FC = () => {
                       src={imageUrl}
                       alt={`Portfolio image ${index + 4}`}
                       loading="lazy"
+                      decoding="async"
                       onLoad={() => handleImageLoad(index + 3)}
                       onError={() => handleImageError(index + 3)}
                       onClick={() => openLightbox(imageUrl, `Portfolio image ${index + 4}`)}

@@ -148,6 +148,7 @@ const ImageLightbox: React.FC<ImageLightboxProps> = ({
               <LightboxImage
                 src={imageUrl}
                 alt={imageTitle || 'Portfolio image'}
+                decoding="async"
               />
             )}
             
