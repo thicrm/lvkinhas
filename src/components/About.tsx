@@ -636,12 +636,17 @@ const About: React.FC = () => {
 
   return (
     <>
-      {/* Preload video for faster loading */}
+      {/* Preload video and image for faster loading */}
       <link 
         rel="preload" 
         href="https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/Hexen%20(mage)%20-%20Gameplay%20scenes%20and%20moments%20-%20BAZOOKA%20TV%20(720p%2C%20h264).mp4" 
         as="video" 
         type="video/mp4"
+      />
+      <link 
+        rel="preload" 
+        href="https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/IMG_4577.JPG" 
+        as="image"
       />
       
       <AboutSection>
@@ -683,6 +688,8 @@ const About: React.FC = () => {
                 src="https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/IMG_4577.JPG"
                 alt="Lucas Cavallini - Photographer"
                 style={{ width: '100%', height: 'auto', display: 'block' }}
+                loading="eager"
+                decoding="async"
                 onLoad={handleImageLoad}
                 onError={handleImageError}
               />

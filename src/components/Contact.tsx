@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import emailjs from '@emailjs/browser';
 
 const ContactSection = styled.section`
   padding: 8rem 0 5rem 0;
@@ -371,95 +370,7 @@ const ErrorMessage = styled(motion.div)`
 `;
 
 const Contact: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [showError, setShowError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-
-  // Initialize EmailJS
-  useEffect(() => {
-    try {
-      // 🔧 EMAILJS SETUP REQUIRED:
-      // 1. Go to https://www.emailjs.com/ and create account
-      // 2. Create Gmail service and get Service ID
-      // 3. Create email template and get Template ID  
-      // 4. Get your Public Key from Account → API Keys
-      // 5. Replace the values below with your actual IDs
-      emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your actual public key
-    } catch (error) {
-      console.warn('EmailJS initialization failed:', error);
-    }
-  }, []);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setShowError(false);
-    setErrorMessage('');
-    
-    try {
-      // Check if EmailJS is properly configured
-      if (!emailjs || !emailjs.send) {
-        throw new Error('Email service not configured');
-      }
-
-      // EmailJS template parameters
-      const templateParams = {
-        to_email: 'lvcascavallini@gmail.com',
-        from_name: formData.name,
-        from_email: formData.email,
-        subject: formData.subject,
-        message: formData.message,
-        reply_to: formData.email
-      };
-
-      // Send email using EmailJS
-      const result = await emailjs.send(
-        'YOUR_SERVICE_ID', // 🔧 Replace with your EmailJS service ID (e.g., 'service_abc123')
-        'YOUR_TEMPLATE_ID', // 🔧 Replace with your EmailJS template ID (e.g., 'template_xyz789')
-        templateParams
-      );
-
-      if (result.status === 200) {
-        setShowSuccess(true);
-        setFormData({ name: '', email: '', subject: '', message: '' });
-        setTimeout(() => setShowSuccess(false), 5000);
-      } else {
-        throw new Error('Failed to send email');
-      }
-    } catch (error: any) {
-      console.error('Email error:', error);
-      
-      // Provide more specific error messages
-      if (error.message === 'Email service not configured') {
-        setErrorMessage('Email service not configured. Please contact directly at lvcascavallini@gmail.com');
-      } else if (error.text && error.text.includes('Invalid email')) {
-        setErrorMessage('Please check your email address and try again.');
-      } else if (error.text && error.text.includes('template')) {
-        setErrorMessage('Email service configuration error. Please contact directly.');
-      } else {
-        setErrorMessage('Failed to send message. Please try again or contact directly at lvcascavallini@gmail.com');
-      }
-      
-      setShowError(true);
-      setTimeout(() => setShowError(false), 8000);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  // Simplified contact component - no form state needed
 
   return (
     <ContactSection>
@@ -469,83 +380,26 @@ const Contact: React.FC = () => {
           
         </SectionSubtitle>
 
-        <ContactForm onSubmit={handleSubmit}>
+        <ContactForm>
           <FormTitle className="form-title">
-            <i className="bi bi-chat-dots-fill" style={{ marginRight: '10px' }}></i>
-            Send me a message
+            <i className="bi bi-envelope-fill" style={{ marginRight: '10px' }}></i>
+            Get in Touch
           </FormTitle>
           
-          {showSuccess && (
-            <SuccessMessage
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
+          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+            <p style={{ color: 'white', fontSize: '1.1rem', marginBottom: '1.5rem', lineHeight: '1.6' }}>
+              Ready to create something amazing together? Let's discuss your photography needs!
+            </p>
+            
+            <SubmitButton 
+              className="button-text" 
+              type="button"
+              onClick={() => window.open('mailto:lvcascavallini@gmail.com?subject=Photography Inquiry&body=Hello Lucas,%0D%0A%0D%0AI would like to discuss a photography project with you.%0D%0A%0D%0APlease let me know your availability and rates.%0D%0A%0D%0AThank you!', '_blank')}
             >
-              Thank you! Your message has been sent successfully.
-            </SuccessMessage>
-          )}
-
-          {showError && (
-            <ErrorMessage
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-            >
-              {errorMessage}
-            </ErrorMessage>
-          )}
-
-          <FormGroup>
-            <Label className="contact-label" htmlFor="name">Name *</Label>
-            <Input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <Label className="contact-label" htmlFor="email">Email *</Label>
-            <Input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <Label className="contact-label" htmlFor="subject">Subject *</Label>
-            <Input
-              type="text"
-              id="subject"
-              name="subject"
-              value={formData.subject}
-              onChange={handleChange}
-              required
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <Label className="contact-label" htmlFor="message">Message *</Label>
-            <TextArea
-              id="message"
-              name="message"
-              value={formData.message}
-              onChange={handleChange}
-              required
-              placeholder="Tell me about your photography needs..."
-            />
-          </FormGroup>
-
-          <SubmitButton className="button-text" type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Sending...' : 'Send Message'}
-          </SubmitButton>
+              <i className="bi bi-envelope" style={{ marginRight: '8px' }}></i>
+              Send Email Directly
+            </SubmitButton>
+          </div>
         </ContactForm>
 
         <ContactInfo>
