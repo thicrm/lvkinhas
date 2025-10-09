@@ -14,15 +14,16 @@ const HeroSection = styled.section`
   overflow: hidden;
 `;
 
-const HeroBackground = styled.div`
+const HeroBackground = styled.div<{ $isLoaded: boolean }>`
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   background: url('https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/pit-below-full.png') center/cover;
-  opacity: 1;
+  opacity: ${props => props.$isLoaded ? 1 : 0};
   z-index: 1;
+  transition: opacity 0.8s ease-in-out;
 `;
 
 const HeroContent = styled.div`
@@ -564,6 +565,16 @@ const MediaCounter = styled.div`
 
 const Home: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [backgroundLoaded, setBackgroundLoaded] = useState(false);
+  
+  // Preload hero background image
+  useEffect(() => {
+    const img = new Image();
+    img.src = 'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/pit-below-full.png';
+    img.onload = () => {
+      setBackgroundLoaded(true);
+    };
+  }, []);
   
   // Sample media items from your R2 bucket - you can add more URLs here
   const mediaItems = [
@@ -595,7 +606,7 @@ const Home: React.FC = () => {
   return (
     <>
       <HeroSection className="homepage">
-        <HeroBackground />
+        <HeroBackground $isLoaded={backgroundLoaded} />
         <HeroContent>
           <HeroTitle
             className="hero-title"

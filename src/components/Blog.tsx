@@ -758,6 +758,11 @@ interface Message {
 
 // Function to render blog post content with proper image display
 const renderBlogPostContent = (content: string): JSX.Element => {
+  // Safety check for undefined or null content
+  if (!content) {
+    return <div>No content available</div>;
+  }
+  
   // Split content by markdown images
   const parts = content.split(/(!\[([^\]]*)\]\(([^)]+)\))/g);
   
@@ -1045,7 +1050,18 @@ const Blog: React.FC = () => {
     try {
       // Load posts from blog service
       const posts = blogService.getAllPosts();
-      setBlogPosts(posts);
+      
+      // Auto-reset if there are more than 1 post (clear old test posts)
+      if (posts.length > 1) {
+        console.log('Resetting to new default posts...');
+        localStorage.clear();
+        blogService.resetToDefaults();
+        const newPosts = blogService.getAllPosts();
+        setBlogPosts(newPosts);
+      } else {
+        setBlogPosts(posts);
+      }
+      
       setError(null);
     } catch (err) {
       console.error('Error loading blog posts:', err);

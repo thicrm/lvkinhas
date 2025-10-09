@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
@@ -10,15 +10,16 @@ const ContactSection = styled.section`
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 `;
 
-const ContactBackground = styled.div`
+const ContactBackground = styled.div<{ $isLoaded: boolean }>`
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   background: url('https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/P1010010%20(2).jpg') center/contain;
-  opacity: 1;
+  opacity: ${props => props.$isLoaded ? 1 : 0};
   z-index: 1;
+  transition: opacity 0.8s ease-in-out;
   
   /* Light source glow - similar to LUCAS CAVALLINI text */
   &::before {
@@ -101,6 +102,7 @@ const SectionTitle = styled.h1`
   transition: all 0.4s ease;
   cursor: pointer;
   font-family: 'Bitcount Grid Single', monospace;
+  -webkit-text-stroke: 0.5px #000;
   
   &:hover {
     transform: scale(1.03);
@@ -125,6 +127,7 @@ const SectionSubtitle = styled.p`
   font-variation-settings:
     "ELGR" 1,
     "ELSH" 2;
+  -webkit-text-stroke: 0.3px #000;
   
   &:hover {
     transform: scale(1.02);
@@ -156,6 +159,7 @@ const FormTitle = styled.h2`
   transition: all 0.3s ease;
   cursor: pointer;
   font-family: 'Bitcount Grid Single', monospace;
+  -webkit-text-stroke: 0.5px #000;
   
   &:hover {
     transform: scale(1.02);
@@ -187,7 +191,7 @@ const Label = styled.label`
 const Input = styled.input`
   width: 100%;
   padding: 1rem;
-  border: 2px solid #ddd;
+  border: 1px solid #000;
   border-radius: 10px;
   font-size: 1rem;
   transition: border-color 0.3s ease;
@@ -201,7 +205,7 @@ const Input = styled.input`
 const TextArea = styled.textarea`
   width: 100%;
   padding: 1rem;
-  border: 2px solid #ddd;
+  border: 1px solid #000;
   border-radius: 10px;
   font-size: 1rem;
   min-height: 120px;
@@ -220,7 +224,7 @@ const SubmitButton = styled.button`
   padding: 1rem;
   background: rgba(255, 255, 255, 0.9);
   color: #333;
-  border: none;
+  border: 1px solid #000;
   border-radius: 10px;
   font-size: 1.1rem;
   font-weight: 600;
@@ -232,7 +236,6 @@ const SubmitButton = styled.button`
     "ELSH" 2;
   cursor: pointer;
   transition: all 0.3s ease;
-  border: 2px solid rgba(255, 255, 255, 0.3);
   
   &:hover {
     background: rgba(255, 255, 255, 1);
@@ -289,6 +292,7 @@ const InfoTitle = styled.h3`
   transition: all 0.3s ease;
   cursor: pointer;
   font-family: 'Bitcount Grid Single', monospace;
+  -webkit-text-stroke: 0.5px #000;
   
   &:hover {
     transform: scale(1.05);
@@ -311,6 +315,7 @@ const InfoText = styled.p`
     "ELSH" 2;
   transition: all 0.3s ease;
   cursor: pointer;
+  -webkit-text-stroke: 0.3px #000;
   
   &:hover {
     transform: scale(1.02);
@@ -370,11 +375,20 @@ const ErrorMessage = styled(motion.div)`
 `;
 
 const Contact: React.FC = () => {
-  // Simplified contact component - no form state needed
+  const [backgroundLoaded, setBackgroundLoaded] = useState(false);
+
+  // Preload background image
+  useEffect(() => {
+    const img = new Image();
+    img.src = 'https://pub-a631c92817904ed48eeddf13a23f12bb.r2.dev/tika%20site%202025/P1010010%20(2).jpg';
+    img.onload = () => {
+      setBackgroundLoaded(true);
+    };
+  }, []);
 
   return (
     <ContactSection>
-      <ContactBackground />
+      <ContactBackground $isLoaded={backgroundLoaded} />
       <Container>
         <SectionSubtitle className="section-subtitle">
           
@@ -387,7 +401,7 @@ const Contact: React.FC = () => {
           </FormTitle>
           
           <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-            <p style={{ color: 'white', fontSize: '1.1rem', marginBottom: '1.5rem', lineHeight: '1.6' }}>
+            <p style={{ color: 'white', fontSize: '1.1rem', marginBottom: '1.5rem', lineHeight: '1.6', WebkitTextStroke: '0.3px #000' } as React.CSSProperties}>
               Ready to create something amazing together? Let's discuss your photography needs!
             </p>
             
