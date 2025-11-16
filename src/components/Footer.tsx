@@ -144,7 +144,7 @@ const Footer: React.FC = () => {
           <FooterSection>
             <FooterTitle className="footer-text">Lucas Cavallini</FooterTitle>
             <FooterText className="footer-text">
-            Professional photographer, journalist and all-around creative in the realm of image making. Born in Belém - PA, Lucas came to São Paulo at a very early age and started meddling with analog photography circa 2018. From then, Lucas has turned into a competent professional, mainly photographing events and fashion tied to the current nightlife scene in São Paulo.
+            Professional photographer, journalist and all-around creative in the realm of image making. Born in São Paulo - SP, Lucas started meddling with analog photography circa 2018. From then, Lucas has turned into a competent professional, mainly photographing events and fashion tied to the current nightlife scene in São Paulo.
             </FooterText>
             <SocialLinks>
               <SocialLink href="https://www.instagram.com/lvqkinhas/" aria-label="Instagram"><i className="bi bi-instagram"></i></SocialLink>
